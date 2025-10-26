@@ -1,165 +1,176 @@
-<!-- MovaHub animated SVG — "Just teach" -->
-<svg viewBox="0 0 960 360" role="img" aria-labelledby="title desc"
-     style="width:100%;max-width:960px;height:auto;display:block;margin:24px auto">
-  <title id="title">Just teach — we create the content</title>
-  <desc id="desc">Docs fly into AI hub, then happy teachers get checkmarks as their content is generated.</desc>
+<!-- 1) Постав ОДРАЗУ ПІСЛЯ секції .hero, всередині .card -->
+<section class="story">
+  <!-- Optional: розділювач -->
+  <hr class="story-sep" aria-hidden="true" />
 
-  <defs>
-    <!-- Brand gradient (fallbacks окремо, у стилі нижче підтримує і CSS-перемінні з твоєї теми) -->
-    <linearGradient id="gAccent" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#14B8A6"/>
-      <stop offset="1" stop-color="#0D9488"/>
-    </linearGradient>
-    <!-- М’яке світіння -->
-    <filter id="fGlow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="6" result="b"/>
-      <feColorMatrix in="b" type="matrix"
-        values="0 0 0 0 0.08  0 0 0 0 0.9  0 0 0 0 0.85  0 0 0 0.6 0"/>
-    </filter>
-    <!-- Симпатична “іскра” -->
-    <symbol id="spark" viewBox="0 0 20 20">
-      <path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z" fill="currentColor"/>
-    </symbol>
-  </defs>
+  <!-- 2) Animated SVG -->
+  <svg id="just-teach-anim" viewBox="0 0 960 360" role="img" aria-labelledby="jt-title jt-desc"
+       style="width:100%;max-width:960px;height:auto;display:block;margin:18px auto 6px;">
+    <title id="jt-title">Just teach — we create the content</title>
+    <desc id="jt-desc">Docs fly into AI hub, then happy teachers get checkmarks as their content is generated.</desc>
 
-  <style>
-    /* Палітра (підтримує твої CSS custom properties, є і fallback) */
-    :root { --accent: #14B8A6; --accent2: #0D9488; --ink:#e5e7eb; --muted:#94a3b8; }
-    .ink{ fill: var(--ink, #e5e7eb); }
-    .muted{ fill: var(--muted, #94a3b8); }
-    .stroked{ stroke: var(--ink, #e5e7eb); stroke-width:2; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+    <defs>
+      <linearGradient id="gAccent" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#14B8A6"/>
+        <stop offset="1" stop-color="#0D9488"/>
+      </linearGradient>
+      <filter id="fGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="6" result="b"/>
+        <feColorMatrix in="b" type="matrix"
+          values="0 0 0 0 0.08  0 0 0 0 0.9  0 0 0 0 0.85  0 0 0 0.6 0"/>
+      </filter>
+      <symbol id="spark" viewBox="0 0 20 20">
+        <path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z" fill="currentColor"/>
+      </symbol>
+    </defs>
 
-    /* Анімації */
-    @keyframes flyDoc {
-      0%   { transform: translateX(-180px) translateY(0) rotate(-6deg); opacity:0; }
-      10%  { opacity:1; }
-      70%  { transform: translateX(360px) translateY(-8px) rotate(-1deg); opacity:1; }
-      100% { transform: translateX(420px) translateY(-12px) rotate(3deg); opacity:0; }
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes pulse {
-      0% { r:58; opacity:.35; }
-      60%{ r:94; opacity:.08; }
-      100%{ r:110; opacity:0; }
-    }
-    @keyframes pop {
-      0% { transform: scale(.6) translateY(6px); opacity:0; }
-      60%{ transform: scale(1.05) translateY(0); opacity:1; }
-      100%{ transform: scale(1) translateY(0); opacity:1; }
-    }
-    @keyframes float {
-      0%,100%{ transform: translateY(0); }
-      50%    { transform: translateY(-6px); }
-    }
-    @keyframes blink {
-      0%,92%,100% { opacity:1; }
-      94%,98%     { opacity:0; }
-    }
+    <style>
+      :root { --accent:#14B8A6; --accent2:#0D9488; --ink:#e5e7eb; --muted:#94a3b8; }
+      .ink{ fill: var(--ink, #e5e7eb); }
+      .muted{ fill: var(--muted, #94a3b8); }
+      .stroked{ stroke: var(--ink, #e5e7eb); stroke-width:2; fill:none; stroke-linecap:round; stroke-linejoin:round; }
 
-    /* Документи, що летять ліворуч → у хаб */
-    .doc { transform-origin: center; opacity:0; }
-    .doc.d1 { animation: flyDoc 4.8s linear infinite; }
-    .doc.d2 { animation: flyDoc 4.8s linear infinite .7s; }
-    .doc.d3 { animation: flyDoc 4.8s linear infinite 1.4s; }
+      /* КАДЕНСИ */
+      @keyframes flyDoc {
+        0%   { transform: translateX(-180px) translateY(0) rotate(-6deg); opacity:0; }
+        10%  { opacity:1; }
+        70%  { transform: translateX(360px) translateY(-8px) rotate(-1deg); opacity:1; }
+        100% { transform: translateX(420px) translateY(-12px) rotate(3deg); opacity:0; }
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      @keyframes pulse {
+        0% { r:58; opacity:.35; }
+        60%{ r:94; opacity:.08; }
+        100%{ r:110; opacity:0; }
+      }
+      @keyframes pop {
+        0% { transform: scale(.6) translateY(6px); opacity:0; }
+        60%{ transform: scale(1.05) translateY(0); opacity:1; }
+        100%{ transform: scale(1) translateY(0); opacity:1; }
+      }
+      @keyframes float {
+        0%,100%{ transform: translateY(0); }
+        50%    { transform: translateY(-6px); }
+      }
+      @keyframes blink {
+        0%,92%,100% { opacity:1; }
+        94%,98%     { opacity:0; }
+      }
 
-    /* Хаб */
-    .ring { transform-origin: 480px 160px; animation: spin 12s linear infinite; opacity:.6; }
-    .pulse { animation: pulse 2.8s ease-out infinite; fill: url(#gAccent); filter:url(#fGlow); }
-    .spark { opacity:.9; transform-origin:center; animation: float 3.2s ease-in-out infinite; }
+      /* БАЗОВО — пауза. Коли <svg> має клас .playing → анімуємо */
+      .doc, .ring, .pulse, .spark, .teacher, .check, .screen { animation: none; opacity: initial; }
+      svg.playing .doc.d1 { animation: flyDoc 4.8s linear infinite; }
+      svg.playing .doc.d2 { animation: flyDoc 4.8s linear infinite .7s; }
+      svg.playing .doc.d3 { animation: flyDoc 4.8s linear infinite 1.4s; }
+      svg.playing .ring   { animation: spin 12s linear infinite; opacity:.6; transform-origin: 480px 160px; }
+      svg.playing .pulse  { animation: pulse 2.8s ease-out infinite; fill: url(#gAccent); filter:url(#fGlow); }
+      svg.playing .spark  { animation: float 3.2s ease-in-out infinite; opacity:.9; transform-origin:center; }
+      svg.playing .teacher { animation: float 4s ease-in-out infinite; transform-origin:center; }
+      svg.playing .teacher.t2 { animation-delay: .3s; }
+      svg.playing .teacher.t3 { animation-delay: .6s; }
+      svg.playing .check.c1{ animation: pop .7s ease-out forwards 1.6s; }
+      svg.playing .check.c2{ animation: pop .7s ease-out forwards 2.4s; }
+      svg.playing .check.c3{ animation: pop .7s ease-out forwards 3.0s; }
+      svg.playing .screen  { animation: blink 5s infinite 1.2s; }
 
-    /* Викладачі */
-    .teacher { transform-origin:center; animation: float 4s ease-in-out infinite; }
-    .teacher.t2 { animation-delay: .3s; }
-    .teacher.t3 { animation-delay: .6s; }
-    .check  { transform-origin:center; animation: pop .7s ease-out forwards; opacity:0; }
-    .check.c1 { animation-delay: 1.6s; }
-    .check.c2 { animation-delay: 2.4s; }
-    .check.c3 { animation-delay: 3.0s; }
-    .screen { animation: blink 5s infinite 1.2s; }
+      /* Підпис */
+      .caption { font: 700 20px/1.2 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif; fill: var(--ink, #e5e7eb); }
+      .subcap  { font: 14px/1.4 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif; fill: var(--muted, #94a3b8); }
+      @media (max-width: 560px){
+        .caption{ font-size: 18px; }
+        .subcap{ font-size: 13px; }
+      }
+      @media (prefers-reduced-motion: reduce){
+        .doc, .ring, .pulse, .spark, .teacher, .check, .screen { animation: none !important; }
+      }
+    </style>
 
-    /* Підпис */
-    .caption { font: 700 20px/1.2 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif; fill: var(--ink, #e5e7eb); }
-    .subcap  { font: 14px/1.4 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif; fill: var(--muted, #94a3b8); }
-  </style>
-
-  <!-- Ліво: “старі” джерела контенту — PDF / стаття / посилання -->
-  <g transform="translate(90,150)">
-    <!-- Doc card -->
-    <g class="doc d1">
-      <rect x="-40" y="-30" rx="8" ry="8" width="84" height="64" fill="#0f172a" stroke="#5b718f" stroke-opacity=".5"/>
-      <rect x="-30" y="-20" width="24" height="24" rx="6" fill="#132033"/>
-      <rect x="0" y="-18" width="48" height="6" rx="3" class="muted" opacity=".6"/>
-      <rect x="0" y="-6" width="36" height="6" rx="3" class="muted" opacity=".45"/>
-      <rect x="-30" y="12" width="78" height="6" rx="3" class="muted" opacity=".35"/>
+    <!-- LEFT: sources -->
+    <g transform="translate(90,150)">
+      <g class="doc d1">
+        <rect x="-40" y="-30" rx="8" ry="8" width="84" height="64" fill="#0f172a" stroke="#5b718f" stroke-opacity=".5"/>
+        <rect x="-30" y="-20" width="24" height="24" rx="6" fill="#132033"/>
+        <rect x="0" y="-18" width="48" height="6" rx="3" class="muted" opacity=".6"/>
+        <rect x="0" y="-6" width="36" height="6" rx="3" class="muted" opacity=".45"/>
+        <rect x="-30" y="12" width="78" height="6" rx="3" class="muted" opacity=".35"/>
+      </g>
+      <g class="doc d2">
+        <rect x="-40" y="-30" rx="8" ry="8" width="84" height="64" fill="#0f172a" stroke="#5b718f" stroke-opacity=".5"/>
+        <rect x="-30" y="-20" width="54" height="10" rx="5" class="muted" opacity=".5"/>
+        <rect x="-30" y="-6" width="60" height="6" rx="3" class="muted" opacity=".35"/>
+        <rect x="-30" y="8" width="52" height="6" rx="3" class="muted" opacity=".35"/>
+      </g>
+      <g class="doc d3">
+        <rect x="-40" y="-30" rx="8" ry="8" width="84" height="64" fill="#0f172a" stroke="#5b718f" stroke-opacity=".5"/>
+        <circle cx="-18" cy="-8" r="10" fill="#132033"/>
+        <rect x="0" y="-12" width="60" height="8" rx="4" class="muted" opacity=".5"/>
+        <rect x="0" y="6" width="42" height="8" rx="4" class="muted" opacity=".35"/>
+      </g>
     </g>
-    <!-- Article card -->
-    <g class="doc d2">
-      <rect x="-40" y="-30" rx="8" ry="8" width="84" height="64" fill="#0f172a" stroke="#5b718f" stroke-opacity=".5"/>
-      <rect x="-30" y="-20" width="54" height="10" rx="5" class="muted" opacity=".5"/>
-      <rect x="-30" y="-6" width="60" height="6" rx="3" class="muted" opacity=".35"/>
-      <rect x="-30" y="8" width="52" height="6" rx="3" class="muted" opacity=".35"/>
-    </g>
-    <!-- Link card -->
-    <g class="doc d3">
-      <rect x="-40" y="-30" rx="8" ry="8" width="84" height="64" fill="#0f172a" stroke="#5b718f" stroke-opacity=".5"/>
-      <circle cx="-18" cy="-8" r="10" fill="#132033"/>
-      <rect x="0" y="-12" width="60" height="8" rx="4" class="muted" opacity=".5"/>
-      <rect x="0" y="6" width="42" height="8" rx="4" class="muted" opacity=".35"/>
-    </g>
-  </g>
 
-  <!-- Центр: AI-хаб -->
-  <g transform="translate(480,160)">
-    <!-- Пульс-хвиля -->
-    <circle class="pulse" r="58" />
-    <!-- Сам хаб -->
-    <circle r="54" fill="url(#gAccent)"/>
-    <!-- Обличчя “вузли” -->
-    <g fill="#ffffff">
-      <circle cx="-16" cy="10" r="5"/><circle cx="0" cy="-8" r="5"/><circle cx="16" cy="10" r="5"/>
-      <path d="M-16 10 L0 -8 L16 10" class="stroked" stroke="#fff" stroke-width="5"/>
+    <!-- CENTER: hub -->
+    <g transform="translate(480,160)">
+      <circle class="pulse" r="58" />
+      <circle r="54" fill="url(#gAccent)"/>
+      <g fill="#ffffff">
+        <circle cx="-16" cy="10" r="5"/><circle cx="0" cy="-8" r="5"/><circle cx="16" cy="10" r="5"/>
+        <path d="M-16 10 L0 -8 L16 10" class="stroked" stroke="#fff" stroke-width="5"/>
+      </g>
+      <g class="ring" opacity=".5">
+        <circle r="70" fill="none" stroke="url(#gAccent)" stroke-width="3" stroke-dasharray="8 10"/>
+      </g>
+      <g class="spark" transform="translate(0,-95)" style="color: var(--accent,#14B8A6);">
+        <use href="#spark" width="18" height="18" x="-9" y="-9"/>
+      </g>
     </g>
-    <!-- Обертове кільце -->
-    <g class="ring" opacity=".5">
-      <circle r="70" fill="none" stroke="url(#gAccent)" stroke-width="3" stroke-dasharray="8 10"/>
-    </g>
-    <!-- Іскра -->
-    <g class="spark" transform="translate(0,-95)" style="color: var(--accent,#14B8A6);">
-      <use href="#spark" width="18" height="18" x="-9" y="-9"/>
-    </g>
-  </g>
 
-  <!-- Праворуч: щасливі викладачі -->
-  <g transform="translate(640,86)">
-    <!-- Teacher 1 -->
-    <g class="teacher t1">
-      <circle cx="24" cy="20" r="12" class="ink"/>
-      <rect x="8" y="36" width="32" height="22" rx="6" fill="#0f172a" stroke="#5b718f" stroke-opacity=".6"/>
-      <rect class="screen" x="12" y="40" width="24" height="14" rx="3" fill="url(#gAccent)"/>
-      <path d="M18 24 q6 6 12 0" class="stroked" stroke-width="2"/>
-      <path class="check c1" d="M10 8 l6 6 l12 -12" stroke="url(#gAccent)" stroke-width="4" fill="none"/>
+    <!-- RIGHT: happy teachers -->
+    <g transform="translate(640,86)">
+      <g class="teacher t1">
+        <circle cx="24" cy="20" r="12" class="ink"/>
+        <rect x="8" y="36" width="32" height="22" rx="6" fill="#0f172a" stroke="#5b718f" stroke-opacity=".6"/>
+        <rect class="screen" x="12" y="40" width="24" height="14" rx="3" fill="url(#gAccent)"/>
+        <path d="M18 24 q6 6 12 0" class="stroked" stroke-width="2"/>
+        <path class="check c1" d="M10 8 l6 6 l12 -12" stroke="url(#gAccent)" stroke-width="4" fill="none"/>
+      </g>
+      <g class="teacher t2" transform="translate(100,24)">
+        <circle cx="24" cy="20" r="12" class="ink"/>
+        <rect x="8" y="36" width="32" height="22" rx="6" fill="#0f172a" stroke="#5b718f" stroke-opacity=".6"/>
+        <rect class="screen" x="12" y="40" width="24" height="14" rx="3" fill="url(#gAccent)"/>
+        <path d="M18 24 q6 6 12 0" class="stroked" stroke-width="2"/>
+        <path class="check c2" d="M10 8 l6 6 l12 -12" stroke="url(#gAccent)" stroke-width="4" fill="none"/>
+      </g>
+      <g class="teacher t3" transform="translate(200,6)">
+        <circle cx="24" cy="20" r="12" class="ink"/>
+        <rect x="8" y="36" width="32" height="22" rx="6" fill="#0f172a" stroke="#5b718f" stroke-opacity=".6"/>
+        <rect class="screen" x="12" y="40" width="24" height="14" rx="3" fill="url(#gAccent)"/>
+        <path d="M18 24 q6 6 12 0" class="stroked" stroke-width="2"/>
+        <path class="check c3" d="M10 8 l6 6 l12 -12" stroke="url(#gAccent)" stroke-width="4" fill="none"/>
+      </g>
     </g>
-    <!-- Teacher 2 -->
-    <g class="teacher t2" transform="translate(100,24)">
-      <circle cx="24" cy="20" r="12" class="ink"/>
-      <rect x="8" y="36" width="32" height="22" rx="6" fill="#0f172a" stroke="#5b718f" stroke-opacity=".6"/>
-      <rect class="screen" x="12" y="40" width="24" height="14" rx="3" fill="url(#gAccent)"/>
-      <path d="M18 24 q6 6 12 0" class="stroked" stroke-width="2"/>
-      <path class="check c2" d="M10 8 l6 6 l12 -12" stroke="url(#gAccent)" stroke-width="4" fill="none"/>
-    </g>
-    <!-- Teacher 3 -->
-    <g class="teacher t3" transform="translate(200,6)">
-      <circle cx="24" cy="20" r="12" class="ink"/>
-      <rect x="8" y="36" width="32" height="22" rx="6" fill="#0f172a" stroke="#5b718f" stroke-opacity=".6"/>
-      <rect class="screen" x="12" y="40" width="24" height="14" rx="3" fill="url(#gAccent)"/>
-      <path d="M18 24 q6 6 12 0" class="stroked" stroke-width="2"/>
-      <path class="check c3" d="M10 8 l6 6 l12 -12" stroke="url(#gAccent)" stroke-width="4" fill="none"/>
-    </g>
-  </g>
 
-  <!-- Підпис (редагуй текст тут) -->
-  <g transform="translate(480,318)" text-anchor="middle">
-    <text class="caption">Just teach. We’ll create the content.</text>
-    <text class="subcap" dy="18">(No more hours of manual exercise prep.)</text>
-  </g>
-</svg>
+    <!-- CAPTION -->
+    <g transform="translate(480,318)" text-anchor="middle">
+      <text class="caption">Just teach. We will create content by ourselves.</text>
+      <text class="subcap" dy="18">(No more hours of manual exercise prep.)</text>
+    </g>
+  </svg>
+</section>
+
+<!-- 3) Додай ці стилі (можна у твій <style>) -->
+<style>
+  .story{ padding: 0 24px 24px 24px; }
+  .story-sep{ border: none; border-top:1px solid rgba(255,255,255,0.08); margin: 0 0 8px 0; }
+</style>
+
+<!-- 4) І оцей скрипт (наприклад, перед </body>): запускає анімацію лише коли видно -->
+<script>
+  (function(){
+    const svg = document.getElementById('just-teach-anim');
+    if (!('IntersectionObserver' in window) || !svg){ svg?.classList.add('playing'); return; }
+    const io = new IntersectionObserver(([e])=>{
+      svg.classList.toggle('playing', e.isIntersecting);
+    }, { threshold: 0.2 });
+    io.observe(svg);
+  })();
+</script>
