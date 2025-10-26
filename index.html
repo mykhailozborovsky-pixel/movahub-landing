@@ -9,6 +9,9 @@
   <meta property="og:description" content="Plug in content. Teach instantly. All-in-one hub for lessons, exercises, progress and payments." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#14B8A6" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"> <!-- опціонально -->
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">              <!-- опціонально -->
   <style>
     /* ===== Design tokens (UI kit v1) ===== */
     :root{
@@ -518,8 +521,8 @@
             Import any article, video, or podcast and turn it into lessons — exercises, schedules,
             homework and progress tracking in one place. Payments included.
           </p>
-         <div class="cta">
-            <a class="btn" href="#waitlist-msg">Join the waitlist</a>
+          <div class="cta">
+            <a class="btn" href="mailto:hello@yourdomain.tld?subject=MovaHub%20Waitlist&body=I%27d%20like%20to%20join%20the%20waitlist.">Join the waitlist</a>
             <a class="btn subtle" href="#updates">Learn more</a>
           </div>
           <!-- Waitlist -->
@@ -729,25 +732,11 @@
         msg.textContent = 'Submitting…';
         const data = Object.fromEntries(new FormData(form).entries());
         try {
-          const res = await fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSeCFMwDd1w4qzneGPmCwIxS5F6AK1nmWVxIMVFXJigumI8FdA/formResponse", {
-            headers: {
-                "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-                "accept-language": "uk-UA,uk;q=0.9,ru-RU;q=0.8,ru;q=0.7,en-US;q=0.6,en;q=0.5",
-                "priority": "i"
-              },
-            body: "emailAddress="&data.email,
-            method: "POST",
-            mode: "cors",
-            credentials: "include"
+          const res = await fetch('/api/subscribe', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ email: data.email })
           });
-
-        
-
-
-
-
-
-          
           if (!res.ok) throw new Error('Bad response');
           msg.textContent = 'You’re on the list!';
           form.reset();
