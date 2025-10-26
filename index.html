@@ -148,7 +148,7 @@
     .mock .dot{ width:10px; height:10px; border-radius:999px; background:#475569 }
 
     .mock .grid{
-      position:absolute; inset:56px 16px 16px 16px;
+      position:absolute; inset:56px 16px 48px 16px; /* знизу залишаємо місце під пагінацію */
       display:grid;
       grid-template-columns: repeat(2, 1fr);
       gap: clamp(10px, 2.2vw, 16px);
@@ -164,7 +164,6 @@
       border: 1px solid var(--tile-border);
       box-shadow: inset 0 0 0 1px var(--tile-soft);
       min-height: clamp(132px, 24vw, 176px);
-      /* Внутрішній грід — іконка, заголовок, опис, опц. прев’ю */
       display:grid;
       grid-template-columns: auto 1fr auto;
       grid-template-rows: auto 1fr;
@@ -177,27 +176,14 @@
       transition: transform .2s ease, border-color .2s ease;
     }
     .tile:hover{ transform: translateY(-2px); border-color: rgba(148,163,184,0.28); }
+    .tile[hidden]{ display:none !important; }
 
-    .tile .band{
-      content:""; position:absolute; left:0; right:0; top:0; height:6px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-    }
-    .tile .icon{
-      grid-area: icon;
-      width: clamp(22px, 2.2vw, 28px); height: clamp(22px, 2.2vw, 28px);
-      opacity:.9;
-    }
-    .tile h4{
-      grid-area: title;
-      margin:0; color:#f8fafc; letter-spacing:.2px; line-height:1.25;
-      font-size: clamp(13px, 1.2vw, 15px);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .tile p{
-      grid-area: desc;
-      margin:0; color:#cbd5e1; line-height:1.45;
-      font-size: clamp(12.5px, 1.05vw, 14px);
-    }
+    .tile .band{ content:""; position:absolute; left:0; right:0; top:0; height:6px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    .tile .icon{ grid-area: icon; width: clamp(22px, 2.2vw, 28px); height: clamp(22px, 2.2vw, 28px); opacity:.9; }
+    .tile h4{ grid-area: title; margin:0; color:#f8fafc; letter-spacing:.2px; line-height:1.25; font-size: clamp(13px, 1.2vw, 15px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tile p{ grid-area: desc; margin:0; color:#cbd5e1; line-height:1.45; font-size: clamp(12.5px, 1.05vw, 14px); }
+
     .tile .thumb{
       grid-area: thumb;
       width: clamp(90px, 14vw, 120px); height: clamp(54px, 10vw, 78px);
@@ -206,15 +192,39 @@
       border:1px solid rgba(148,163,184,0.18);
       display:flex; align-items:center; justify-content:center;
     }
-    .thumb .play{
-      width:0; height:0;
-      border-left:14px solid #e2e8f0;
-      border-top:10px solid transparent;
-      border-bottom:10px solid transparent;
-      opacity:.9;
-    }
+    .thumb .play{ width:0; height:0; border-left:14px solid #e2e8f0; border-top:10px solid transparent; border-bottom:10px solid transparent; opacity:.9; }
+
     /* Сіра палітра деталей у векторних іконках */
     .art-lines rect{ fill:#334155 }
+
+    /* ===== Pager ===== */
+    .pager{
+      position:absolute; left:12px; right:12px; bottom:10px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      z-index:2;
+    }
+    .pager .buttons{ display:flex; gap:8px; }
+    .pager button{
+      appearance:none; cursor:pointer;
+      width:36px; height:32px; border-radius:999px;
+      background: rgba(2,6,23,0.6);
+      color:#e2e8f0; border:1px solid rgba(255,255,255,0.12);
+      display:flex; align-items:center; justify-content:center;
+      font-size:18px; line-height:1;
+      transition: filter .2s ease, transform .2s ease;
+    }
+    .pager button:hover{ filter: brightness(1.08); transform: translateY(-1px); }
+    .pager button:disabled{ opacity:.5; cursor: default; transform:none; }
+
+    .pager .dots{ display:flex; gap:6px; }
+    .pager .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: rgba(148,163,184,0.35);
+    }
+    .pager .dot.active{
+      background: var(--accent);
+      transform: scale(1.2);
+    }
 
     /* Footer */
     .footer{
@@ -228,7 +238,7 @@
 
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
-      .tile, .btn { transition: none !important; }
+      .tile, .btn, .pager button { transition: none !important; }
       .tile:hover{ transform:none; }
     }
   </style>
@@ -294,7 +304,7 @@
           </div>
         </div>
 
-        <!-- Refined right-hand mock -->
+        <!-- Right-hand mock with pagination -->
         <div class="mock" aria-hidden="true">
           <div class="bar"></div>
           <div class="pill"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
@@ -313,7 +323,6 @@
               <h4>Article → Exercises</h4>
               <p>Create gap-fills and Q&A from any URL or pasted text.</p>
             </div>
-
             <!-- Video -->
             <div class="tile">
               <div class="band"></div>
@@ -325,7 +334,6 @@
               <p>Generate role-cards and speaking prompts from clips.</p>
               <div class="thumb"><div class="play"></div></div>
             </div>
-
             <!-- Podcast -->
             <div class="tile">
               <div class="band"></div>
@@ -339,7 +347,6 @@
               <h4>Podcast → Comprehension</h4>
               <p>Build listening checks and vocab from episodes.</p>
             </div>
-
             <!-- Scheduling -->
             <div class="tile">
               <div class="band"></div>
@@ -352,7 +359,6 @@
               <h4>Scheduling</h4>
               <p>Organize classes, reminders, and homework.</p>
             </div>
-
             <!-- Progress -->
             <div class="tile">
               <div class="band"></div>
@@ -365,7 +371,6 @@
               <h4>Progress</h4>
               <p>See mastery growth and spot weak areas.</p>
             </div>
-
             <!-- Payments -->
             <div class="tile">
               <div class="band"></div>
@@ -378,6 +383,15 @@
               <p>Accept payments when you’re ready.</p>
             </div>
           </div>
+
+          <!-- Pagination controls -->
+          <div class="pager" aria-label="Grid pagination" hidden>
+            <div class="buttons">
+              <button type="button" class="prev" aria-label="Previous page">‹</button>
+              <button type="button" class="next" aria-label="Next page">›</button>
+            </div>
+            <div class="dots" role="tablist" aria-label="Pages"></div>
+          </div>
         </div>
       </section>
 
@@ -389,7 +403,95 @@
   </div>
 
   <script>
+    // Year
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Adaptive pagination for the right grid
+    (function(){
+      const grid = document.querySelector('.mock .grid');
+      const tiles = Array.from(grid.querySelectorAll('.tile'));
+      const pager = document.querySelector('.mock .pager');
+      const btnPrev = pager.querySelector('.prev');
+      const btnNext = pager.querySelector('.next');
+      const dotsWrap = pager.querySelector('.dots');
+
+      let page = 0, ipp = tiles.length, total = 1;
+
+      function countCols(){
+        const cs = getComputedStyle(grid);
+        const colsDef = cs.gridTemplateColumns.trim();
+        if (!colsDef) return 1;
+        // e.g. "1fr 1fr" or "374px 374px 374px"
+        return colsDef.split(' ').filter(Boolean).length;
+      }
+
+      function computeIpp(){
+        // Show all to measure
+        tiles.forEach(t => t.hidden = false);
+        const cs = getComputedStyle(grid);
+        const gap = parseFloat(cs.gap) || 0;
+        const gridH = grid.clientHeight;
+        const cols = Math.max(1, countCols());
+
+        // Measure a tile
+        const first = tiles[0];
+        const th = first.getBoundingClientRect().height || 140;
+
+        // Available rows inside grid
+        const rows = Math.max(1, Math.floor((gridH + gap) / (th + gap)));
+        const calc = Math.max(1, cols * rows);
+
+        return calc;
+      }
+
+      function renderDots(){
+        dotsWrap.innerHTML = '';
+        for(let i=0;i<total;i++){
+          const d = document.createElement('div');
+          d.className = 'dot' + (i===page?' active':'');
+          d.setAttribute('role','tab');
+          d.setAttribute('aria-selected', i===page ? 'true' : 'false');
+          d.addEventListener('click', ()=> { setPage(i); });
+          dotsWrap.appendChild(d);
+        }
+      }
+
+      function setPage(p){
+        ipp = computeIpp();
+        total = Math.max(1, Math.ceil(tiles.length / ipp));
+        page = Math.min(Math.max(0, p), total - 1);
+
+        // Show range
+        const start = page * ipp;
+        const end = start + ipp;
+        tiles.forEach((t, i) => { t.hidden = !(i >= start && i < end); });
+
+        // Controls
+        pager.hidden = total <= 1;
+        btnPrev.disabled = page === 0;
+        btnNext.disabled = page === total - 1;
+        renderDots();
+      }
+
+      btnPrev.addEventListener('click', ()=> setPage(page - 1));
+      btnNext.addEventListener('click', ()=> setPage(page + 1));
+
+      // Keyboard support
+      pager.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowLeft') { setPage(page - 1); }
+        if(e.key === 'ArrowRight'){ setPage(page + 1); }
+      });
+
+      // Recalculate on resize (debounced)
+      let rId;
+      window.addEventListener('resize', ()=>{
+        cancelAnimationFrame(rId);
+        rId = requestAnimationFrame(()=> setPage(page));
+      });
+
+      // Init
+      setPage(0);
+    })();
   </script>
 </body>
 </html>
