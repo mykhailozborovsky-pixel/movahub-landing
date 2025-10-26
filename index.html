@@ -729,11 +729,20 @@
         msg.textContent = 'Submitting…';
         const data = Object.fromEntries(new FormData(form).entries());
         try {
-          const res = await fetch('https://forms.gle/XYZJdZ6ECMvSA6ue8', {
-            method:'POST',
-            headers:{'Content-Type':'application/txt'},
-            body: data.email
+          const res = await fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSeCFMwDd1w4qzneGPmCwIxS5F6AK1nmWVxIMVFXJigumI8FdA/formResponse", {
+            body: "emailAddress="&data.email
+            method: "POST",
+            mode: "cors",
+            credentials: "include"
           });
+
+        
+
+
+
+
+
+          
           if (!res.ok) throw new Error('Bad response');
           msg.textContent = 'You’re on the list!';
           form.reset();
