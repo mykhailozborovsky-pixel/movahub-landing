@@ -730,7 +730,12 @@
         const data = Object.fromEntries(new FormData(form).entries());
         try {
           const res = await fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSeCFMwDd1w4qzneGPmCwIxS5F6AK1nmWVxIMVFXJigumI8FdA/formResponse", {
-            body: "emailAddress="&data.email
+            headers: {
+                "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+                "accept-language": "uk-UA,uk;q=0.9,ru-RU;q=0.8,ru;q=0.7,en-US;q=0.6,en;q=0.5",
+                "priority": "i"
+              },
+            body: "emailAddress="&data.email,
             method: "POST",
             mode: "cors",
             credentials: "include"
