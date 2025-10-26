@@ -10,21 +10,29 @@
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#14B8A6" />
   <style>
+    /* ===== Design tokens (UI kit v1) ===== */
     :root{
       --bg: #0b1220;
       --text: #e5e7eb;
       --title: #f8fafc;
       --muted: #94a3b8;
-      --card: rgba(255,255,255,0.06);
-      --card-border: rgba(255,255,255,0.10);
+
+      --surface: rgba(255,255,255,0.06);
+      --surface-2: rgba(255,255,255,0.04);
+      --stroke-1: rgba(255,255,255,0.10);
+      --stroke-2: rgba(148,163,184,0.18);
+      --soft-line: rgba(255,255,255,0.08);
+
       --accent: #14B8A6;
       --accent-2: #0D9488;
-      --tile: #0f172a;
-      --tile-border: rgba(148,163,184,0.18);
-      --tile-soft: rgba(255,255,255,0.04);
-      --radius: 20px;
-      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+
+      --radius-lg: 20px;
+      --radius-md: 14px;
+
+      --shadow-lg: 0 10px 30px rgba(0,0,0,0.35);
+      --shadow-btn: 0 10px 24px rgba(20,184,166,0.35);
     }
+
     * { box-sizing: border-box; }
     html, body { height: 100%; }
     body{
@@ -38,22 +46,52 @@
       background-attachment: fixed;
     }
 
-    .wrap{ min-height: 100%; display:flex; align-items:center; justify-content:center; padding: clamp(28px, 4vw, 48px) 20px; }
-    .card{ width: 100%; max-width: 1080px; background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); box-shadow: var(--shadow); backdrop-filter: blur(10px); position: relative; overflow: hidden; }
-    .glow{ position:absolute; inset:-2px; pointer-events:none; background: radial-gradient(800px 300px at 10% 0%, rgba(20,184,166,0.16), transparent 70%), radial-gradient(600px 300px at 90% 10%, rgba(14,165,233,0.12), transparent 70%); mask: linear-gradient(#0008, #0002); }
+    .wrap{
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(28px, 4vw, 48px) 20px;
+    }
+    .card{
+      width: 100%;
+      max-width: 1080px;
+      background: var(--surface);
+      border: 1px solid var(--stroke-1);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+    .glow{
+      position:absolute; inset:-2px; pointer-events:none;
+      background:
+        radial-gradient(800px 300px at 10% 0%, rgba(20,184,166,0.16), transparent 70%),
+        radial-gradient(600px 300px at 90% 10%, rgba(14,165,233,0.12), transparent 70%);
+      mask: linear-gradient(#0008, #0002);
+    }
 
-    header{ display:flex; align-items:center; gap:16px; padding: 24px 24px 0 24px; }
+    /* ===== Header ===== */
+    header{
+      display:flex; align-items:center; gap:16px;
+      padding: 24px 24px 0 24px;
+    }
     .brand{ display:flex; gap:14px; align-items:center; }
-    .logo{ width:56px; height:56px; border-radius:14px; position:relative; background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 8px 24px rgba(20,184,166,0.35), inset 0 0 0 1px rgba(255,255,255,0.12); }
+    .logo{
+      width:56px; height:56px; border-radius:14px; position:relative;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 8px 24px rgba(20,184,166,0.35), inset 0 0 0 1px rgba(255,255,255,0.12);
+    }
     .logo svg{ position:absolute; inset:0; width:100%; height:100%; }
     .brand h1{ margin:0; color:var(--title); font-weight:800; font-size: 26px; letter-spacing:.2px; }
     .brand p { margin:0; color:var(--muted); font-size: 13.5px; }
 
-    /* ===== Just-teach animated SVG section (after header) ===== */
+    /* ===== Animated SVG just after header ===== */
     .just-teach{ padding: 0 24px 0 24px; }
-    .just-teach__sep{ border:none; border-top:1px solid rgba(255,255,255,0.08); margin:0 0 8px 0; }
+    .just-teach__sep{ border:none; border-top:1px solid var(--soft-line); margin:0 0 8px 0; }
 
-    /* ===== HERO ===== */
+    /* ===== Hero ===== */
     .hero{
       display:grid;
       grid-template-columns: 1.12fr 0.88fr;
@@ -72,7 +110,14 @@
       background: rgba(20,184,166,0.10);
       border: 1px solid rgba(20,184,166,0.22);
     }
-    .title{ color: var(--title); font-weight: 900; font-size: clamp(28px, 4.6vw, 48px); line-height: 1.08; letter-spacing: .2px; margin: 12px 0 10px 0; }
+    .title{
+      color: var(--title);
+      font-weight: 900;
+      font-size: clamp(28px, 4.6vw, 48px);
+      line-height: 1.08;
+      letter-spacing: .2px;
+      margin: 12px 0 10px 0;
+    }
     .desc{ color:#cbd5e1; font-size: clamp(15px, 1.4vw, 16.5px); line-height: 1.6; max-width: 60ch; }
 
     .cta{ display:flex; gap:12px; margin-top: 18px; flex-wrap: wrap; }
@@ -82,48 +127,68 @@
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
       border: 1px solid rgba(255,255,255,0.1);
       padding: 12px 16px; border-radius: 12px;
-      box-shadow: 0 10px 24px rgba(20,184,166,0.35);
+      box-shadow: var(--shadow-btn);
       transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
     }
     .btn:hover{ transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 14px 28px rgba(20,184,166,0.4); }
     .btn.subtle{ background: transparent; color: #e2e8f0; border-color: rgba(226,232,240,0.2); box-shadow: none; }
 
-    .features{ display:grid; gap: 12px; margin-top: 22px; grid-template-columns: repeat(3, 1fr); }
+    .features{
+      display:grid; gap: 12px; margin-top: 22px;
+      grid-template-columns: repeat(3, 1fr);
+    }
     @media (max-width: 680px){ .features{ grid-template-columns: 1fr; } }
-    .feature{ border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); border-radius: 14px; padding: 14px; }
+    .feature{
+      border: 1px solid var(--soft-line);
+      background: var(--surface-2);
+      border-radius: var(--radius-md); padding: 14px;
+    }
     .feature h3{ margin:0 0 6px 0; color:#f1f5f9; font-size: 15.5px; }
     .feature p{ margin:0; color:#cbd5e1; font-size: 14px; }
 
-    /* ===== RIGHT MOCK WITH PAGINATION ===== */
+    /* ===== Right mock — fully adaptive via container queries ===== */
     .mock{
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid var(--soft-line);
       background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
       border-radius: 16px;
-      min-height: 340px;
+      min-height: 360px;
       position: relative; overflow:hidden;
       box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+      container-type: inline-size; /* key for container queries */
     }
-    .mock .bar{ position:absolute; top:0; left:0; right:0; height: 44px; background: rgba(15,23,42,0.5); border-bottom:1px solid rgba(255,255,255,0.08) }
+    .mock .bar{ position:absolute; top:0; left:0; right:0; height: 44px; background: rgba(15,23,42,0.5); border-bottom:1px solid var(--soft-line) }
     .mock .pill{ position:absolute; top: 10px; left: 12px; display:flex; gap:6px }
     .mock .dot{ width:10px; height:10px; border-radius:999px; background:#475569 }
 
+    /* Auto-fit columns for ANY width; JS читає обчислені треки */
     .mock .grid{
-      position:absolute; inset:56px 16px 48px 16px; /* знизу місце під пагінацію */
+      position:absolute; inset:56px 16px 56px 16px;
       display:grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
       gap: clamp(10px, 2.2vw, 16px);
       align-content:start;
     }
-    @media (min-width: 1200px){ .mock .grid{ grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 560px){ .mock .grid{ grid-template-columns: 1fr; } }
+
+    /* Container queries: fine-tune tile heights/inner layout by container width */
+    @container (max-width: 520px){
+      .tile{ min-height: 140px; }
+    }
+    @container (min-width: 521px) and (max-width: 760px){
+      .tile{ min-height: 150px; }
+    }
+    @container (min-width: 761px) and (max-width: 1020px){
+      .tile{ min-height: 160px; }
+    }
+    @container (min-width: 1021px){
+      .tile{ min-height: 176px; }
+    }
 
     .tile{
       position:relative;
       border-radius:14px; overflow:hidden;
-      background: var(--tile);
-      border: 1px solid var(--tile-border);
-      box-shadow: inset 0 0 0 1px var(--tile-soft);
-      min-height: clamp(132px, 24vw, 176px);
+      background: #0f172a;
+      border: 1px solid var(--stroke-2);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
       display:grid;
       grid-template-columns: auto 1fr auto;
       grid-template-rows: auto 1fr;
@@ -138,17 +203,16 @@
     .tile:hover{ transform: translateY(-2px); border-color: rgba(148,163,184,0.28); }
     .tile[hidden]{ display:none !important; }
 
-    .tile .band{ content:""; position:absolute; left:0; right:0; top:0; height:6px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    .tile .band{ content:""; position:absolute; left:0; right:0; top:0; height:6px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
     .tile .icon{ grid-area: icon; width: clamp(22px, 2.2vw, 28px); height: clamp(22px, 2.2vw, 28px); opacity:.9; }
     .tile h4{ grid-area: title; margin:0; color:#f8fafc; letter-spacing:.2px; line-height:1.25; font-size: clamp(13px, 1.2vw, 15px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .tile p{ grid-area: desc; margin:0; color:#cbd5e1; line-height:1.45; font-size: clamp(12.5px, 1.05vw, 14px); }
-
     .tile .thumb{
-      grid-area: thumb;
+      grid-area: thumb; align-self:center;
       width: clamp(90px, 14vw, 120px); height: clamp(54px, 10vw, 78px);
-      align-self: center;
       border-radius: 10px; background:#0b1220;
-      border:1px solid rgba(148,163,184,0.18);
+      border:1px solid var(--stroke-2);
       display:flex; align-items:center; justify-content:center;
     }
     .thumb .play{ width:0; height:0; border-left:14px solid #e2e8f0; border-top:10px solid transparent; border-bottom:10px solid transparent; opacity:.9; }
@@ -172,15 +236,11 @@
     }
     .pager button:hover{ filter: brightness(1.08); transform: translateY(-1px); }
     .pager button:disabled{ opacity:.5; cursor: default; transform:none; }
-
     .pager .dots{ display:flex; gap:6px; }
-    .pager .dot{
-      width:8px; height:8px; border-radius:999px;
-      background: rgba(148,163,184,0.35);
-    }
+    .pager .dot{ width:8px; height:8px; border-radius:999px; background: rgba(148,163,184,0.35); }
     .pager .dot.active{ background: var(--accent); transform: scale(1.2); }
 
-    /* Updates section */
+    /* ===== Updates ===== */
     .updates{ padding: 6px 24px 26px 24px; }
     .updates h3{ margin: 8px 0 12px 0; color: var(--title); font-size: clamp(18px, 2.4vw, 22px); }
     .updates .controls{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 12px; }
@@ -190,7 +250,7 @@
     .updates .list{ display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; }
     @media (max-width: 900px){ .updates .list{ grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 560px){ .updates .list{ grid-template-columns: 1fr; } }
-    .updates .card{ border:1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); border-radius:12px; padding:12px; }
+    .updates .card{ border:1px solid var(--soft-line); background: var(--surface-2); border-radius:12px; padding:12px; }
     .updates .card h4{ margin:0 0 6px 0; color:#f8fafc; font-size:15px; }
     .updates .card p{ margin:0 0 8px 0; color:#cbd5e1; font-size:14px; }
     .updates .meta{ font-size:12px; color:#94a3b8; display:flex; gap:10px; flex-wrap:wrap; }
@@ -206,7 +266,7 @@
 
     /* Footer */
     .footer{
-      border-top: 1px solid rgba(255,255,255,0.08);
+      border-top: 1px solid var(--soft-line);
       padding: 18px 24px 24px 24px;
       display:flex; align-items:center; justify-content:space-between;
       color: #94a3b8; font-size: 13.5px;
@@ -229,7 +289,7 @@
       <header>
         <div class="brand">
           <span class="logo" aria-hidden="true">
-            <!-- MovaHub bubble icon -->
+            <!-- MovaHub logo -->
             <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MovaHub">
               <defs>
                 <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
@@ -287,6 +347,7 @@
             @keyframes pop{ 0%{ transform:scale(.6) translateY(6px);opacity:0;}60%{transform:scale(1.05);opacity:1;}100%{transform:scale(1);opacity:1;} }
             @keyframes float{ 0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);} }
             @keyframes blink{ 0%,92%,100%{opacity:1;}94%,98%{opacity:0;} }
+
             .doc,.ring,.pulse,.spark,.teacher,.check,.screen{ animation:none; opacity:initial; }
             svg.playing .doc.d1{ animation:flyDoc 4.8s linear infinite; }
             svg.playing .doc.d2{ animation:flyDoc 4.8s linear infinite .7s; }
@@ -301,6 +362,7 @@
             svg.playing .check.c2{ animation:pop .7s ease-out forwards 2.4s; }
             svg.playing .check.c3{ animation:pop .7s ease-out forwards 3.0s; }
             svg.playing .screen{ animation:blink 5s infinite 1.2s; }
+
             .caption{ font:700 20px/1.2 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,sans-serif; fill:var(--ink,#e5e7eb); }
             .subcap{ font:14px/1.4 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,sans-serif; fill:var(--muted,#94a3b8); }
             @media (max-width:560px){ .caption{font-size:18px;} .subcap{font-size:13px;} }
@@ -392,7 +454,7 @@
             <a class="btn" href="mailto:hello@yourdomain.tld?subject=MovaHub%20Waitlist&body=I%27d%20like%20to%20join%20the%20waitlist.">Join the waitlist</a>
             <a class="btn subtle" href="#updates">Learn more</a>
           </div>
-          <!-- Waitlist form -->
+          <!-- Waitlist -->
           <form class="waitlist" id="waitlist-form">
             <input type="email" name="email" placeholder="your@email.com" required />
             <button class="btn" type="submit">Join waitlist</button>
@@ -415,7 +477,7 @@
           </div>
         </div>
 
-        <!-- Right mock with pagination -->
+        <!-- Right mock with adaptive pagination (any width) -->
         <div class="mock" aria-hidden="true">
           <div class="bar"></div>
           <div class="pill"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
@@ -447,7 +509,7 @@
             </div>
             <!-- Podcast -->
             <div class="tile">
-              <div class="band"></div>
+              <div "band"></div>
               <svg class="icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <rect x="4" y="10" width="3" height="12" rx="1.5" fill="#334155"></rect>
                 <rect x="9" y="8" width="3" height="14" rx="1.5" fill="#334155"></rect>
@@ -547,7 +609,15 @@
       io.observe(svg);
     })();
 
-    // Adaptive pagination for the right grid
+    // Helper: count CSS grid tracks of computed grid (works with auto-fit/minmax)
+    function countTracks(el){
+      const cs = getComputedStyle(el);
+      const colsDef = cs.gridTemplateColumns.trim();
+      if (!colsDef) return 1;
+      return colsDef.split(' ').filter(Boolean).length;
+    }
+
+    // Adaptive pagination for the right grid (any container width/height)
     (function(){
       const grid = document.querySelector('.mock .grid');
       const tiles = Array.from(grid.querySelectorAll('.tile'));
@@ -558,24 +628,20 @@
 
       let page = 0, ipp = tiles.length, total = 1;
 
-      function countCols(){
-        const cs = getComputedStyle(grid);
-        const colsDef = cs.gridTemplateColumns.trim();
-        if (!colsDef) return 1;
-        return colsDef.split(' ').filter(Boolean).length;
-      }
       function computeIpp(){
+        // Reveal all to measure
         tiles.forEach(t => t.hidden = false);
         const cs = getComputedStyle(grid);
         const gap = parseFloat(cs.gap) || 0;
         const gridH = grid.clientHeight;
-        const cols = Math.max(1, countCols());
-        const first = tiles[0];
-        const th = first.getBoundingClientRect().height || 140;
+        const cols = Math.max(1, countTracks(grid));
+        // Measure average tile height
+        const sample = tiles[0];
+        const th = sample ? sample.getBoundingClientRect().height : 150;
         const rows = Math.max(1, Math.floor((gridH + gap) / (th + gap)));
-        const calc = Math.max(1, cols * rows);
-        return calc;
+        return Math.max(1, cols * rows);
       }
+
       function renderDots(){
         dotsWrap.innerHTML = '';
         for(let i=0;i<total;i++){
@@ -587,6 +653,7 @@
           dotsWrap.appendChild(d);
         }
       }
+
       function setPage(p){
         ipp = computeIpp();
         total = Math.max(1, Math.ceil(tiles.length / ipp));
@@ -599,17 +666,28 @@
         btnNext.disabled = page === total - 1;
         renderDots();
       }
+
       btnPrev.addEventListener('click', ()=> setPage(page - 1));
       btnNext.addEventListener('click', ()=> setPage(page + 1));
-      pager.addEventListener('keydown', (e)=>{
-        if(e.key === 'ArrowLeft') { setPage(page - 1); }
-        if(e.key === 'ArrowRight'){ setPage(page + 1); }
+
+      // Keyboard navigation on the mock container
+      const mock = document.querySelector('.mock');
+      mock.tabIndex = 0;
+      mock.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowLeft') { e.preventDefault(); setPage(page - 1); }
+        if(e.key === 'ArrowRight'){ e.preventDefault(); setPage(page + 1); }
       });
+
+      // Recalculate on resize & when fonts load
       let rId;
       window.addEventListener('resize', ()=>{
         cancelAnimationFrame(rId);
         rId = requestAnimationFrame(()=> setPage(page));
       });
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(()=> setPage(page));
+      }
+
       setPage(0);
     })();
 
