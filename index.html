@@ -1,176 +1,696 @@
-<!-- 1) Постав ОДРАЗУ ПІСЛЯ секції .hero, всередині .card -->
-<section class="story">
-  <!-- Optional: розділювач -->
-  <hr class="story-sep" aria-hidden="true" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MovaHub — Your language teaching hub</title>
+  <meta name="description" content="MovaHub turns any article, video, or podcast into lessons with AI — exercises, schedule, progress tracking and payments in one hub." />
+  <meta property="og:title" content="MovaHub — Your language teaching hub" />
+  <meta property="og:description" content="Plug in content. Teach instantly. All-in-one hub for lessons, exercises, progress and payments." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#14B8A6" />
+  <style>
+    :root{
+      --bg: #0b1220;
+      --text: #e5e7eb;
+      --title: #f8fafc;
+      --muted: #94a3b8;
+      --card: rgba(255,255,255,0.06);
+      --card-border: rgba(255,255,255,0.10);
+      --accent: #14B8A6;
+      --accent-2: #0D9488;
+      --tile: #0f172a;
+      --tile-border: rgba(148,163,184,0.18);
+      --tile-soft: rgba(255,255,255,0.04);
+      --radius: 20px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 700px at 20% -10%, rgba(20,184,166,0.25), transparent 50%),
+        radial-gradient(1200px 700px at 100% 0%, rgba(76,29,149,0.18), transparent 55%),
+        linear-gradient(180deg, #0b1220 0%, #0b1220 100%);
+      background-attachment: fixed;
+    }
 
-  <!-- 2) Animated SVG -->
-  <svg id="just-teach-anim" viewBox="0 0 960 360" role="img" aria-labelledby="jt-title jt-desc"
-       style="width:100%;max-width:960px;height:auto;display:block;margin:18px auto 6px;">
-    <title id="jt-title">Just teach — we create the content</title>
-    <desc id="jt-desc">Docs fly into AI hub, then happy teachers get checkmarks as their content is generated.</desc>
+    .wrap{ min-height: 100%; display:flex; align-items:center; justify-content:center; padding: clamp(28px, 4vw, 48px) 20px; }
+    .card{ width: 100%; max-width: 1080px; background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); box-shadow: var(--shadow); backdrop-filter: blur(10px); position: relative; overflow: hidden; }
+    .glow{ position:absolute; inset:-2px; pointer-events:none; background: radial-gradient(800px 300px at 10% 0%, rgba(20,184,166,0.16), transparent 70%), radial-gradient(600px 300px at 90% 10%, rgba(14,165,233,0.12), transparent 70%); mask: linear-gradient(#0008, #0002); }
 
-    <defs>
-      <linearGradient id="gAccent" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#14B8A6"/>
-        <stop offset="1" stop-color="#0D9488"/>
-      </linearGradient>
-      <filter id="fGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="6" result="b"/>
-        <feColorMatrix in="b" type="matrix"
-          values="0 0 0 0 0.08  0 0 0 0 0.9  0 0 0 0 0.85  0 0 0 0.6 0"/>
-      </filter>
-      <symbol id="spark" viewBox="0 0 20 20">
-        <path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z" fill="currentColor"/>
-      </symbol>
-    </defs>
+    header{ display:flex; align-items:center; gap:16px; padding: 24px 24px 0 24px; }
+    .brand{ display:flex; gap:14px; align-items:center; }
+    .logo{ width:56px; height:56px; border-radius:14px; position:relative; background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 8px 24px rgba(20,184,166,0.35), inset 0 0 0 1px rgba(255,255,255,0.12); }
+    .logo svg{ position:absolute; inset:0; width:100%; height:100%; }
+    .brand h1{ margin:0; color:var(--title); font-weight:800; font-size: 26px; letter-spacing:.2px; }
+    .brand p { margin:0; color:var(--muted); font-size: 13.5px; }
 
-    <style>
-      :root { --accent:#14B8A6; --accent2:#0D9488; --ink:#e5e7eb; --muted:#94a3b8; }
-      .ink{ fill: var(--ink, #e5e7eb); }
-      .muted{ fill: var(--muted, #94a3b8); }
-      .stroked{ stroke: var(--ink, #e5e7eb); stroke-width:2; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+    /* ===== Just-teach animated SVG section (after header) ===== */
+    .just-teach{ padding: 0 24px 0 24px; }
+    .just-teach__sep{ border:none; border-top:1px solid rgba(255,255,255,0.08); margin:0 0 8px 0; }
 
-      /* КАДЕНСИ */
-      @keyframes flyDoc {
-        0%   { transform: translateX(-180px) translateY(0) rotate(-6deg); opacity:0; }
-        10%  { opacity:1; }
-        70%  { transform: translateX(360px) translateY(-8px) rotate(-1deg); opacity:1; }
-        100% { transform: translateX(420px) translateY(-12px) rotate(3deg); opacity:0; }
+    /* ===== HERO ===== */
+    .hero{
+      display:grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: clamp(18px, 3vw, 28px);
+      padding: 22px 24px 24px 24px;
+    }
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+    }
+
+    .lead{ padding-top: clamp(4px, 2vw, 12px); }
+    .kicker{
+      display:inline-flex; gap:8px; align-items:center;
+      font-size: 12.5px; color: var(--muted);
+      padding: 7px 12px; border-radius: 999px;
+      background: rgba(20,184,166,0.10);
+      border: 1px solid rgba(20,184,166,0.22);
+    }
+    .title{ color: var(--title); font-weight: 900; font-size: clamp(28px, 4.6vw, 48px); line-height: 1.08; letter-spacing: .2px; margin: 12px 0 10px 0; }
+    .desc{ color:#cbd5e1; font-size: clamp(15px, 1.4vw, 16.5px); line-height: 1.6; max-width: 60ch; }
+
+    .cta{ display:flex; gap:12px; margin-top: 18px; flex-wrap: wrap; }
+    .btn{
+      appearance:none; cursor:pointer; font-weight:700; font-size: 15px;
+      color:#0b1220; text-decoration:none;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 16px; border-radius: 12px;
+      box-shadow: 0 10px 24px rgba(20,184,166,0.35);
+      transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
+    }
+    .btn:hover{ transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 14px 28px rgba(20,184,166,0.4); }
+    .btn.subtle{ background: transparent; color: #e2e8f0; border-color: rgba(226,232,240,0.2); box-shadow: none; }
+
+    .features{ display:grid; gap: 12px; margin-top: 22px; grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 680px){ .features{ grid-template-columns: 1fr; } }
+    .feature{ border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); border-radius: 14px; padding: 14px; }
+    .feature h3{ margin:0 0 6px 0; color:#f1f5f9; font-size: 15.5px; }
+    .feature p{ margin:0; color:#cbd5e1; font-size: 14px; }
+
+    /* ===== RIGHT MOCK WITH PAGINATION ===== */
+    .mock{
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border-radius: 16px;
+      min-height: 340px;
+      position: relative; overflow:hidden;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .mock .bar{ position:absolute; top:0; left:0; right:0; height: 44px; background: rgba(15,23,42,0.5); border-bottom:1px solid rgba(255,255,255,0.08) }
+    .mock .pill{ position:absolute; top: 10px; left: 12px; display:flex; gap:6px }
+    .mock .dot{ width:10px; height:10px; border-radius:999px; background:#475569 }
+
+    .mock .grid{
+      position:absolute; inset:56px 16px 48px 16px; /* знизу місце під пагінацію */
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(10px, 2.2vw, 16px);
+      align-content:start;
+    }
+    @media (min-width: 1200px){ .mock .grid{ grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 560px){ .mock .grid{ grid-template-columns: 1fr; } }
+
+    .tile{
+      position:relative;
+      border-radius:14px; overflow:hidden;
+      background: var(--tile);
+      border: 1px solid var(--tile-border);
+      box-shadow: inset 0 0 0 1px var(--tile-soft);
+      min-height: clamp(132px, 24vw, 176px);
+      display:grid;
+      grid-template-columns: auto 1fr auto;
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        "icon title thumb"
+        "desc desc  thumb";
+      column-gap: 12px;
+      row-gap: 8px;
+      padding: 14px;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .tile:hover{ transform: translateY(-2px); border-color: rgba(148,163,184,0.28); }
+    .tile[hidden]{ display:none !important; }
+
+    .tile .band{ content:""; position:absolute; left:0; right:0; top:0; height:6px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    .tile .icon{ grid-area: icon; width: clamp(22px, 2.2vw, 28px); height: clamp(22px, 2.2vw, 28px); opacity:.9; }
+    .tile h4{ grid-area: title; margin:0; color:#f8fafc; letter-spacing:.2px; line-height:1.25; font-size: clamp(13px, 1.2vw, 15px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tile p{ grid-area: desc; margin:0; color:#cbd5e1; line-height:1.45; font-size: clamp(12.5px, 1.05vw, 14px); }
+
+    .tile .thumb{
+      grid-area: thumb;
+      width: clamp(90px, 14vw, 120px); height: clamp(54px, 10vw, 78px);
+      align-self: center;
+      border-radius: 10px; background:#0b1220;
+      border:1px solid rgba(148,163,184,0.18);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .thumb .play{ width:0; height:0; border-left:14px solid #e2e8f0; border-top:10px solid transparent; border-bottom:10px solid transparent; opacity:.9; }
+    .art-lines rect{ fill:#334155 }
+
+    /* Pager */
+    .pager{
+      position:absolute; left:12px; right:12px; bottom:10px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      z-index:2;
+    }
+    .pager .buttons{ display:flex; gap:8px; }
+    .pager button{
+      appearance:none; cursor:pointer;
+      width:36px; height:32px; border-radius:999px;
+      background: rgba(2,6,23,0.6);
+      color:#e2e8f0; border:1px solid rgba(255,255,255,0.12);
+      display:flex; align-items:center; justify-content:center;
+      font-size:18px; line-height:1;
+      transition: filter .2s ease, transform .2s ease;
+    }
+    .pager button:hover{ filter: brightness(1.08); transform: translateY(-1px); }
+    .pager button:disabled{ opacity:.5; cursor: default; transform:none; }
+
+    .pager .dots{ display:flex; gap:6px; }
+    .pager .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: rgba(148,163,184,0.35);
+    }
+    .pager .dot.active{ background: var(--accent); transform: scale(1.2); }
+
+    /* Updates section */
+    .updates{ padding: 6px 24px 26px 24px; }
+    .updates h3{ margin: 8px 0 12px 0; color: var(--title); font-size: clamp(18px, 2.4vw, 22px); }
+    .updates .controls{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 12px; }
+    .updates select, .updates input[type="search"]{
+      background:#0f172a; color:#e2e8f0; border:1px solid rgba(148,163,184,0.25); border-radius:10px; padding:10px 12px; outline:none;
+    }
+    .updates .list{ display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; }
+    @media (max-width: 900px){ .updates .list{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px){ .updates .list{ grid-template-columns: 1fr; } }
+    .updates .card{ border:1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); border-radius:12px; padding:12px; }
+    .updates .card h4{ margin:0 0 6px 0; color:#f8fafc; font-size:15px; }
+    .updates .card p{ margin:0 0 8px 0; color:#cbd5e1; font-size:14px; }
+    .updates .meta{ font-size:12px; color:#94a3b8; display:flex; gap:10px; flex-wrap:wrap; }
+    .updates .meta .tag{ background:#0b1220; border:1px solid rgba(148,163,184,0.25); padding:2px 8px; border-radius:999px; }
+
+    /* Waitlist */
+    .waitlist{ margin-top: 12px; display:flex; gap:8px; flex-wrap:wrap; }
+    .waitlist input[type="email"]{
+      flex:1 1 280px; min-width: 220px;
+      background:#0f172a; color:#e2e8f0; border:1px solid rgba(148,163,184,0.25); border-radius:10px; padding:12px 12px; outline:none;
+    }
+    .waitlist .msg{ margin:0; font-size:13px; color:#94a3b8; min-height: 1.2em; }
+
+    /* Footer */
+    .footer{
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 18px 24px 24px 24px;
+      display:flex; align-items:center; justify-content:space-between;
+      color: #94a3b8; font-size: 13.5px;
+    }
+    .footer a{ color:#8be9df; text-decoration:none; }
+    .footer a:hover{ text-decoration:underline; }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .tile, .btn, .pager button { transition: none !important; }
+      .tile:hover{ transform:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="glow" aria-hidden="true"></div>
+
+      <header>
+        <div class="brand">
+          <span class="logo" aria-hidden="true">
+            <!-- MovaHub bubble icon -->
+            <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MovaHub">
+              <defs>
+                <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#14B8A6"/>
+                  <stop offset="1" stop-color="#0D9488"/>
+                </linearGradient>
+              </defs>
+              <path d="M64 16c26 0 48 18 48 40s-22 40-48 40c-6 0-12-1-17-3l-18 11 3-19C24 78 16 67 16 56c0-22 22-40 48-40z" fill="url(#g)"/>
+              <g fill="#ffffff">
+                <circle cx="46" cy="58" r="6"/>
+                <circle cx="64" cy="46" r="6"/>
+                <circle cx="82" cy="58" r="6"/>
+                <path d="M46 58 L64 46 L82 58" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </g>
+            </svg>
+          </span>
+          <div>
+            <h1>MovaHub</h1>
+            <p>Your language teaching hub</p>
+          </div>
+        </div>
+      </header>
+
+      <!-- ===== Animated SVG immediately after header ===== -->
+      <section class="just-teach">
+        <hr class="just-teach__sep" aria-hidden="true" />
+        <svg id="just-teach-anim" viewBox="0 0 960 360" role="img" aria-labelledby="jt-title jt-desc"
+             style="width:100%;height:auto;display:block;margin:18px auto 6px;">
+          <title id="jt-title">Just teach — we create the content</title>
+          <desc id="jt-desc">Docs fly into AI hub, then happy teachers get checkmarks as their content is generated.</desc>
+
+          <defs>
+            <linearGradient id="gAccent" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#14B8A6"/>
+              <stop offset="1" stop-color="#0D9488"/>
+            </linearGradient>
+            <filter id="fGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="6" result="b"/>
+              <feColorMatrix in="b" type="matrix"
+                values="0 0 0 0 0.08  0 0 0 0 0.9  0 0 0 0 0.85  0 0 0 0.6 0"/>
+            </filter>
+            <symbol id="spark" viewBox="0 0 20 20">
+              <path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z" fill="currentColor"/>
+            </symbol>
+          </defs>
+
+          <style>
+            :root{ --accent:#14B8A6; --accent2:#0D9488; --ink:#e5e7eb; --muted:#94a3b8; }
+            .ink{ fill: var(--ink, #e5e7eb); }
+            .muted{ fill: var(--muted, #94a3b8); }
+            .stroked{ stroke: var(--ink,#e5e7eb); stroke-width:2; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+            @keyframes flyDoc{ 0%{transform:translateX(-180px) translateY(0) rotate(-6deg);opacity:0;}10%{opacity:1;}70%{transform:translateX(360px) translateY(-8px) rotate(-1deg);opacity:1;}100%{transform:translateX(420px) translateY(-12px) rotate(3deg);opacity:0;} }
+            @keyframes spin{ to{ transform:rotate(360deg);} }
+            @keyframes pulse{ 0%{r:58;opacity:.35;}60%{r:94;opacity:.08;}100%{r:110;opacity:0;} }
+            @keyframes pop{ 0%{ transform:scale(.6) translateY(6px);opacity:0;}60%{transform:scale(1.05);opacity:1;}100%{transform:scale(1);opacity:1;} }
+            @keyframes float{ 0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);} }
+            @keyframes blink{ 0%,92%,100%{opacity:1;}94%,98%{opacity:0;} }
+            .doc,.ring,.pulse,.spark,.teacher,.check,.screen{ animation:none; opacity:initial; }
+            svg.playing .doc.d1{ animation:flyDoc 4.8s linear infinite; }
+            svg.playing .doc.d2{ animation:flyDoc 4.8s linear infinite .7s; }
+            svg.playing .doc.d3{ animation:flyDoc 4.8s linear infinite 1.4s; }
+            svg.playing .ring{ animation:spin 12s linear infinite; opacity:.6; transform-origin:480px 160px; }
+            svg.playing .pulse{ animation:pulse 2.8s ease-out infinite; fill:url(#gAccent); filter:url(#fGlow); }
+            svg.playing .spark{ animation:float 3.2s ease-in-out infinite; opacity:.9; transform-origin:center; }
+            svg.playing .teacher{ animation:float 4s ease-in-out infinite; transform-origin:center; }
+            svg.playing .teacher.t2{ animation-delay:.3s; }
+            svg.playing .teacher.t3{ animation-delay:.6s; }
+            svg.playing .check.c1{ animation:pop .7s ease-out forwards 1.6s; }
+            svg.playing .check.c2{ animation:pop .7s ease-out forwards 2.4s; }
+            svg.playing .check.c3{ animation:pop .7s ease-out forwards 3.0s; }
+            svg.playing .screen{ animation:blink 5s infinite 1.2s; }
+            .caption{ font:700 20px/1.2 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,sans-serif; fill:var(--ink,#e5e7eb); }
+            .subcap{ font:14px/1.4 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,sans-serif; fill:var(--muted,#94a3b8); }
+            @media (max-width:560px){ .caption{font-size:18px;} .subcap{font-size:13px;} }
+            @media (prefers-reduced-motion: reduce){ .doc,.ring,.pulse,.spark,.teacher,.check,.screen{ animation:none !important; } }
+          </style>
+
+          <!-- LEFT: sources -->
+          <g transform="translate(90,150)">
+            <g class="doc d1">
+              <rect x="-40" y="-30" rx="8" ry="8" width="84" height="64" fill="#0f172a" stroke="#5b718f" stroke-opacity=".5"/>
+              <rect x="-30" y="-20" width="24" height="24" rx="6" fill="#132033"/>
+              <rect x="0" y="-18" width="48" height="6" rx="3" class="muted" opacity=".6"/>
+              <rect x="0" y="-6" width="36" height="6" rx="3" class="muted" opacity=".45"/>
+              <rect x="-30" y="12" width="78" height="6" rx="3" class="muted" opacity=".35"/>
+            </g>
+            <g class="doc d2">
+              <rect x="-40" y="-30" rx="8" ry="8" width="84" height="64" fill="#0f172a" stroke="#5b718f" stroke-opacity=".5"/>
+              <rect x="-30" y="-20" width="54" height="10" rx="5" class="muted" opacity=".5"/>
+              <rect x="-30" y="-6" width="60" height="6" rx="3" class="muted" opacity=".35"/>
+              <rect x="-30" y="8" width="52" height="6" rx="3" class="muted" opacity=".35"/>
+            </g>
+            <g class="doc d3">
+              <rect x="-40" y="-30" rx="8" ry="8" width="84" height="64" fill="#0f172a" stroke="#5b718f" stroke-opacity=".5"/>
+              <circle cx="-18" cy="-8" r="10" fill="#132033"/>
+              <rect x="0" y="-12" width="60" height="8" rx="4" class="muted" opacity=".5"/>
+              <rect x="0" y="6" width="42" height="8" rx="4" class="muted" opacity=".35"/>
+            </g>
+          </g>
+
+          <!-- CENTER: hub -->
+          <g transform="translate(480,160)">
+            <circle class="pulse" r="58"/>
+            <circle r="54" fill="url(#gAccent)"/>
+            <g fill="#ffffff">
+              <circle cx="-16" cy="10" r="5"/><circle cx="0" cy="-8" r="5"/><circle cx="16" cy="10" r="5"/>
+              <path d="M-16 10 L0 -8 L16 10" class="stroked" stroke="#fff" stroke-width="5"/>
+            </g>
+            <g class="ring" opacity=".5">
+              <circle r="70" fill="none" stroke="url(#gAccent)" stroke-width="3" stroke-dasharray="8 10"/>
+            </g>
+            <g class="spark" transform="translate(0,-95)" style="color: var(--accent,#14B8A6);">
+              <use href="#spark" width="18" height="18" x="-9" y="-9"/>
+            </g>
+          </g>
+
+          <!-- RIGHT: happy teachers -->
+          <g transform="translate(640,86)">
+            <g class="teacher t1">
+              <circle cx="24" cy="20" r="12" class="ink"/>
+              <rect x="8" y="36" width="32" height="22" rx="6" fill="#0f172a" stroke="#5b718f" stroke-opacity=".6"/>
+              <rect class="screen" x="12" y="40" width="24" height="14" rx="3" fill="url(#gAccent)"/>
+              <path d="M18 24 q6 6 12 0" class="stroked" stroke-width="2"/>
+              <path class="check c1" d="M10 8 l6 6 l12 -12" stroke="url(#gAccent)" stroke-width="4" fill="none"/>
+            </g>
+            <g class="teacher t2" transform="translate(100,24)">
+              <circle cx="24" cy="20" r="12" class="ink"/>
+              <rect x="8" y="36" width="32" height="22" rx="6" fill="#0f172a" stroke="#5b718f" stroke-opacity=".6"/>
+              <rect class="screen" x="12" y="40" width="24" height="14" rx="3" fill="url(#gAccent)"/>
+              <path d="M18 24 q6 6 12 0" class="stroked" stroke-width="2"/>
+              <path class="check c2" d="M10 8 l6 6 l12 -12" stroke="url(#gAccent)" stroke-width="4" fill="none"/>
+            </g>
+            <g class="teacher t3" transform="translate(200,6)">
+              <circle cx="24" cy="20" r="12" class="ink"/>
+              <rect x="8" y="36" width="32" height="22" rx="6" fill="#0f172a" stroke="#5b718f" stroke-opacity=".6"/>
+              <rect class="screen" x="12" y="40" width="24" height="14" rx="3" fill="url(#gAccent)"/>
+              <path d="M18 24 q6 6 12 0" class="stroked" stroke-width="2"/>
+              <path class="check c3" d="M10 8 l6 6 l12 -12" stroke="url(#gAccent)" stroke-width="4" fill="none"/>
+            </g>
+          </g>
+
+          <!-- CAPTION -->
+          <g transform="translate(480,318)" text-anchor="middle">
+            <text class="caption">Just teach. We will create content by ourselves.</text>
+            <text class="subcap" dy="18">(No more hours of manual exercise prep.)</text>
+          </g>
+        </svg>
+      </section>
+      <!-- ===== /Animated SVG ===== -->
+
+      <section class="hero">
+        <div class="lead">
+          <span class="kicker">Teacher-first · AI-powered</span>
+          <h2 class="title">Plug in content. Teach instantly.</h2>
+          <p class="desc">
+            Import any article, video, or podcast and turn it into lessons — exercises, schedules,
+            homework and progress tracking in one place. Payments included.
+          </p>
+          <div class="cta">
+            <a class="btn" href="mailto:hello@yourdomain.tld?subject=MovaHub%20Waitlist&body=I%27d%20like%20to%20join%20the%20waitlist.">Join the waitlist</a>
+            <a class="btn subtle" href="#updates">Learn more</a>
+          </div>
+          <!-- Waitlist form -->
+          <form class="waitlist" id="waitlist-form">
+            <input type="email" name="email" placeholder="your@email.com" required />
+            <button class="btn" type="submit">Join waitlist</button>
+            <p class="msg" id="waitlist-msg" aria-live="polite"></p>
+          </form>
+
+          <div class="features" id="learn-more">
+            <div class="feature">
+              <h3>AI exercises</h3>
+              <p>Gap-fills, Q&A, rephrase, audio drills — generated from your content.</p>
+            </div>
+            <div class="feature">
+              <h3>Scheduling</h3>
+              <p>Organize classes, reminders and homework in a single hub.</p>
+            </div>
+            <div class="feature">
+              <h3>Progress & payments</h3>
+              <p>Track learning outcomes and accept payments when you’re ready.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right mock with pagination -->
+        <div class="mock" aria-hidden="true">
+          <div class="bar"></div>
+          <div class="pill"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+
+          <div class="grid">
+            <!-- Article -->
+            <div class="tile">
+              <div class="band"></div>
+              <svg class="icon art-lines" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="4" y="6" width="10" height="10" rx="2"></rect>
+                <rect x="16" y="6" width="12" height="3" rx="1.5"></rect>
+                <rect x="16" y="11" width="8" height="3" rx="1.5"></rect>
+                <rect x="4" y="20" width="24" height="3" rx="1.5"></rect>
+                <rect x="4" y="25" width="18" height="3" rx="1.5"></rect>
+              </svg>
+              <h4>Article → Exercises</h4>
+              <p>Create gap-fills and Q&A from any URL or pasted text.</p>
+            </div>
+            <!-- Video -->
+            <div class="tile">
+              <div class="band"></div>
+              <svg class="icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="3" y="6" width="26" height="18" rx="3" fill="#334155"></rect>
+                <polygon points="14,12 22,15 14,18" fill="#e2e8f0"></polygon>
+              </svg>
+              <h4>Video → Dialogues</h4>
+              <p>Generate role-cards and speaking prompts from clips.</p>
+              <div class="thumb"><div class="play"></div></div>
+            </div>
+            <!-- Podcast -->
+            <div class="tile">
+              <div class="band"></div>
+              <svg class="icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="4" y="10" width="3" height="12" rx="1.5" fill="#334155"></rect>
+                <rect x="9" y="8" width="3" height="14" rx="1.5" fill="#334155"></rect>
+                <rect x="14" y="12" width="3" height="10" rx="1.5" fill="#334155"></rect>
+                <rect x="19" y="6" width="3" height="16" rx="1.5" fill="#334155"></rect>
+                <rect x="24" y="11" width="3" height="11" rx="1.5" fill="#334155"></rect>
+              </svg>
+              <h4>Podcast → Comprehension</h4>
+              <p>Build listening checks and vocab from episodes.</p>
+            </div>
+            <!-- Scheduling -->
+            <div class="tile">
+              <div class="band"></div>
+              <svg class="icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="4" y="6" width="24" height="20" rx="3" fill="#334155"></rect>
+                <rect x="10" y="4" width="4" height="6" rx="2" fill="#334155"></rect>
+                <rect x="18" y="4" width="4" height="6" rx="2" fill="#334155"></rect>
+                <rect x="8" y="14" width="6" height="6" rx="2" fill="#0b1220"></rect>
+              </svg>
+              <h4>Scheduling</h4>
+              <p>Organize classes, reminders, and homework.</p>
+            </div>
+            <!-- Progress -->
+            <div class="tile">
+              <div class="band"></div>
+              <svg class="icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="6" y="18" width="4" height="8" rx="2" fill="#334155"></rect>
+                <rect x="14" y="14" width="4" height="12" rx="2" fill="#334155"></rect>
+                <rect x="22" y="10" width="4" height="16" rx="2" fill="#334155"></rect>
+                <polyline points="6,10 12,12 18,9 24,12" fill="none" stroke="#94a3b8" stroke-width="2"></polyline>
+              </svg>
+              <h4>Progress</h4>
+              <p>See mastery growth and spot weak areas.</p>
+            </div>
+            <!-- Payments -->
+            <div class="tile">
+              <div class="band"></div>
+              <svg class="icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="4" y="8" width="24" height="16" rx="3" fill="#334155"></rect>
+                <rect x="6" y="12" width="20" height="2" rx="1" fill="#0b1220"></rect>
+                <rect x="6" y="18" width="8" height="3" rx="1.5" fill="#0b1220"></rect>
+              </svg>
+              <h4>Payments</h4>
+              <p>Accept payments when you’re ready.</p>
+            </div>
+          </div>
+
+          <!-- Pagination controls -->
+          <div class="pager" aria-label="Grid pagination" hidden>
+            <div class="buttons">
+              <button type="button" class="prev" aria-label="Previous page">‹</button>
+              <button type="button" class="next" aria-label="Next page">›</button>
+            </div>
+            <div class="dots" role="tablist" aria-label="Pages"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dynamic updates -->
+      <section class="updates" id="updates">
+        <h3>Fresh open-content ideas</h3>
+        <div class="controls">
+          <select id="filter-type">
+            <option value="">All types</option>
+            <option value="article">Articles</option>
+            <option value="video">Videos</option>
+            <option value="podcast">Podcasts</option>
+          </select>
+          <select id="filter-level">
+            <option value="">All levels</option>
+            <option>A2</option><option>B1</option><option>B2</option>
+          </select>
+          <input id="search" type="search" placeholder="Search title, tags…" />
+        </div>
+        <div class="list" id="updates-list" role="list"></div>
+      </section>
+
+      <div class="footer">
+        <span>© <span id="y"></span> MovaHub. All rights reserved.</span>
+        <span><a href="#">Privacy</a> · <a href="#">Terms</a></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Start animated SVG only when visible
+    (function(){
+      const svg = document.getElementById('just-teach-anim');
+      if (!svg) return;
+      if (!('IntersectionObserver' in window)) { svg.classList.add('playing'); return; }
+      const io = new IntersectionObserver(([e])=>{
+        svg.classList.toggle('playing', e.isIntersecting);
+      }, { threshold: 0.2 });
+      io.observe(svg);
+    })();
+
+    // Adaptive pagination for the right grid
+    (function(){
+      const grid = document.querySelector('.mock .grid');
+      const tiles = Array.from(grid.querySelectorAll('.tile'));
+      const pager = document.querySelector('.mock .pager');
+      const btnPrev = pager.querySelector('.prev');
+      const btnNext = pager.querySelector('.next');
+      const dotsWrap = pager.querySelector('.dots');
+
+      let page = 0, ipp = tiles.length, total = 1;
+
+      function countCols(){
+        const cs = getComputedStyle(grid);
+        const colsDef = cs.gridTemplateColumns.trim();
+        if (!colsDef) return 1;
+        return colsDef.split(' ').filter(Boolean).length;
       }
-      @keyframes spin { to { transform: rotate(360deg); } }
-      @keyframes pulse {
-        0% { r:58; opacity:.35; }
-        60%{ r:94; opacity:.08; }
-        100%{ r:110; opacity:0; }
+      function computeIpp(){
+        tiles.forEach(t => t.hidden = false);
+        const cs = getComputedStyle(grid);
+        const gap = parseFloat(cs.gap) || 0;
+        const gridH = grid.clientHeight;
+        const cols = Math.max(1, countCols());
+        const first = tiles[0];
+        const th = first.getBoundingClientRect().height || 140;
+        const rows = Math.max(1, Math.floor((gridH + gap) / (th + gap)));
+        const calc = Math.max(1, cols * rows);
+        return calc;
       }
-      @keyframes pop {
-        0% { transform: scale(.6) translateY(6px); opacity:0; }
-        60%{ transform: scale(1.05) translateY(0); opacity:1; }
-        100%{ transform: scale(1) translateY(0); opacity:1; }
+      function renderDots(){
+        dotsWrap.innerHTML = '';
+        for(let i=0;i<total;i++){
+          const d = document.createElement('div');
+          d.className = 'dot' + (i===page?' active':'');
+          d.setAttribute('role','tab');
+          d.setAttribute('aria-selected', i===page ? 'true' : 'false');
+          d.addEventListener('click', ()=> { setPage(i); });
+          dotsWrap.appendChild(d);
+        }
       }
-      @keyframes float {
-        0%,100%{ transform: translateY(0); }
-        50%    { transform: translateY(-6px); }
+      function setPage(p){
+        ipp = computeIpp();
+        total = Math.max(1, Math.ceil(tiles.length / ipp));
+        page = Math.min(Math.max(0, p), total - 1);
+        const start = page * ipp;
+        const end = start + ipp;
+        tiles.forEach((t, i) => { t.hidden = !(i >= start && i < end); });
+        pager.hidden = total <= 1;
+        btnPrev.disabled = page === 0;
+        btnNext.disabled = page === total - 1;
+        renderDots();
       }
-      @keyframes blink {
-        0%,92%,100% { opacity:1; }
-        94%,98%     { opacity:0; }
+      btnPrev.addEventListener('click', ()=> setPage(page - 1));
+      btnNext.addEventListener('click', ()=> setPage(page + 1));
+      pager.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowLeft') { setPage(page - 1); }
+        if(e.key === 'ArrowRight'){ setPage(page + 1); }
+      });
+      let rId;
+      window.addEventListener('resize', ()=>{
+        cancelAnimationFrame(rId);
+        rId = requestAnimationFrame(()=> setPage(page));
+      });
+      setPage(0);
+    })();
+
+    // Waitlist submit → /api/subscribe (Pages Function)
+    (function(){
+      const form = document.getElementById('waitlist-form');
+      const msg = document.getElementById('waitlist-msg');
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        msg.textContent = 'Submitting…';
+        const data = Object.fromEntries(new FormData(form).entries());
+        try {
+          const res = await fetch('/api/subscribe', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ email: data.email })
+          });
+          if (!res.ok) throw new Error('Bad response');
+          msg.textContent = 'You’re on the list!';
+          form.reset();
+        } catch(err){
+          msg.textContent = 'Could not submit. Try again in a moment.';
+        }
+      });
+    })();
+
+    // Dynamic updates: try /api/resources, else /data/resources.json
+    (async function(){
+      async function getResources(){
+        const urls = ['/api/resources','/data/resources.json'];
+        for (const u of urls){
+          try{
+            const r = await fetch(u, { cache:'no-store' });
+            if (r.ok) return await r.json();
+          }catch(e){}
+        }
+        return [];
+      }
+      const data = await getResources();
+      const list = document.getElementById('updates-list');
+      const fType = document.getElementById('filter-type');
+      const fLevel = document.getElementById('filter-level');
+      const search = document.getElementById('search');
+
+      function render(items){
+        list.innerHTML = '';
+        items.forEach(x => {
+          const el = document.createElement('article');
+          el.className = 'card';
+          el.setAttribute('role','listitem');
+          el.innerHTML = `
+            <h4>${x.title}</h4>
+            <p>${x.summary}</p>
+            <div class="meta">
+              <span>${x.type}</span>
+              <span>${x.level}</span>
+              <span>${x.source}</span>
+              ${(x.tags||[]).slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('')}
+            </div>
+          `;
+          el.addEventListener('click', ()=> { if (x.url) window.open(x.url, '_blank'); });
+          list.appendChild(el);
+        });
       }
 
-      /* БАЗОВО — пауза. Коли <svg> має клас .playing → анімуємо */
-      .doc, .ring, .pulse, .spark, .teacher, .check, .screen { animation: none; opacity: initial; }
-      svg.playing .doc.d1 { animation: flyDoc 4.8s linear infinite; }
-      svg.playing .doc.d2 { animation: flyDoc 4.8s linear infinite .7s; }
-      svg.playing .doc.d3 { animation: flyDoc 4.8s linear infinite 1.4s; }
-      svg.playing .ring   { animation: spin 12s linear infinite; opacity:.6; transform-origin: 480px 160px; }
-      svg.playing .pulse  { animation: pulse 2.8s ease-out infinite; fill: url(#gAccent); filter:url(#fGlow); }
-      svg.playing .spark  { animation: float 3.2s ease-in-out infinite; opacity:.9; transform-origin:center; }
-      svg.playing .teacher { animation: float 4s ease-in-out infinite; transform-origin:center; }
-      svg.playing .teacher.t2 { animation-delay: .3s; }
-      svg.playing .teacher.t3 { animation-delay: .6s; }
-      svg.playing .check.c1{ animation: pop .7s ease-out forwards 1.6s; }
-      svg.playing .check.c2{ animation: pop .7s ease-out forwards 2.4s; }
-      svg.playing .check.c3{ animation: pop .7s ease-out forwards 3.0s; }
-      svg.playing .screen  { animation: blink 5s infinite 1.2s; }
-
-      /* Підпис */
-      .caption { font: 700 20px/1.2 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif; fill: var(--ink, #e5e7eb); }
-      .subcap  { font: 14px/1.4 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif; fill: var(--muted, #94a3b8); }
-      @media (max-width: 560px){
-        .caption{ font-size: 18px; }
-        .subcap{ font-size: 13px; }
+      function apply(){
+        const q = (search.value||'').toLowerCase();
+        const t = fType.value;
+        const lv = fLevel.value;
+        const filtered = data.filter(x => {
+          if (t && x.type !== t) return false;
+          if (lv && x.level !== lv) return false;
+          const hay = (x.title+' '+x.summary+' '+(x.tags||[]).join(' ')).toLowerCase();
+          return !q || hay.includes(q);
+        });
+        render(filtered);
       }
-      @media (prefers-reduced-motion: reduce){
-        .doc, .ring, .pulse, .spark, .teacher, .check, .screen { animation: none !important; }
-      }
-    </style>
 
-    <!-- LEFT: sources -->
-    <g transform="translate(90,150)">
-      <g class="doc d1">
-        <rect x="-40" y="-30" rx="8" ry="8" width="84" height="64" fill="#0f172a" stroke="#5b718f" stroke-opacity=".5"/>
-        <rect x="-30" y="-20" width="24" height="24" rx="6" fill="#132033"/>
-        <rect x="0" y="-18" width="48" height="6" rx="3" class="muted" opacity=".6"/>
-        <rect x="0" y="-6" width="36" height="6" rx="3" class="muted" opacity=".45"/>
-        <rect x="-30" y="12" width="78" height="6" rx="3" class="muted" opacity=".35"/>
-      </g>
-      <g class="doc d2">
-        <rect x="-40" y="-30" rx="8" ry="8" width="84" height="64" fill="#0f172a" stroke="#5b718f" stroke-opacity=".5"/>
-        <rect x="-30" y="-20" width="54" height="10" rx="5" class="muted" opacity=".5"/>
-        <rect x="-30" y="-6" width="60" height="6" rx="3" class="muted" opacity=".35"/>
-        <rect x="-30" y="8" width="52" height="6" rx="3" class="muted" opacity=".35"/>
-      </g>
-      <g class="doc d3">
-        <rect x="-40" y="-30" rx="8" ry="8" width="84" height="64" fill="#0f172a" stroke="#5b718f" stroke-opacity=".5"/>
-        <circle cx="-18" cy="-8" r="10" fill="#132033"/>
-        <rect x="0" y="-12" width="60" height="8" rx="4" class="muted" opacity=".5"/>
-        <rect x="0" y="6" width="42" height="8" rx="4" class="muted" opacity=".35"/>
-      </g>
-    </g>
-
-    <!-- CENTER: hub -->
-    <g transform="translate(480,160)">
-      <circle class="pulse" r="58" />
-      <circle r="54" fill="url(#gAccent)"/>
-      <g fill="#ffffff">
-        <circle cx="-16" cy="10" r="5"/><circle cx="0" cy="-8" r="5"/><circle cx="16" cy="10" r="5"/>
-        <path d="M-16 10 L0 -8 L16 10" class="stroked" stroke="#fff" stroke-width="5"/>
-      </g>
-      <g class="ring" opacity=".5">
-        <circle r="70" fill="none" stroke="url(#gAccent)" stroke-width="3" stroke-dasharray="8 10"/>
-      </g>
-      <g class="spark" transform="translate(0,-95)" style="color: var(--accent,#14B8A6);">
-        <use href="#spark" width="18" height="18" x="-9" y="-9"/>
-      </g>
-    </g>
-
-    <!-- RIGHT: happy teachers -->
-    <g transform="translate(640,86)">
-      <g class="teacher t1">
-        <circle cx="24" cy="20" r="12" class="ink"/>
-        <rect x="8" y="36" width="32" height="22" rx="6" fill="#0f172a" stroke="#5b718f" stroke-opacity=".6"/>
-        <rect class="screen" x="12" y="40" width="24" height="14" rx="3" fill="url(#gAccent)"/>
-        <path d="M18 24 q6 6 12 0" class="stroked" stroke-width="2"/>
-        <path class="check c1" d="M10 8 l6 6 l12 -12" stroke="url(#gAccent)" stroke-width="4" fill="none"/>
-      </g>
-      <g class="teacher t2" transform="translate(100,24)">
-        <circle cx="24" cy="20" r="12" class="ink"/>
-        <rect x="8" y="36" width="32" height="22" rx="6" fill="#0f172a" stroke="#5b718f" stroke-opacity=".6"/>
-        <rect class="screen" x="12" y="40" width="24" height="14" rx="3" fill="url(#gAccent)"/>
-        <path d="M18 24 q6 6 12 0" class="stroked" stroke-width="2"/>
-        <path class="check c2" d="M10 8 l6 6 l12 -12" stroke="url(#gAccent)" stroke-width="4" fill="none"/>
-      </g>
-      <g class="teacher t3" transform="translate(200,6)">
-        <circle cx="24" cy="20" r="12" class="ink"/>
-        <rect x="8" y="36" width="32" height="22" rx="6" fill="#0f172a" stroke="#5b718f" stroke-opacity=".6"/>
-        <rect class="screen" x="12" y="40" width="24" height="14" rx="3" fill="url(#gAccent)"/>
-        <path d="M18 24 q6 6 12 0" class="stroked" stroke-width="2"/>
-        <path class="check c3" d="M10 8 l6 6 l12 -12" stroke="url(#gAccent)" stroke-width="4" fill="none"/>
-      </g>
-    </g>
-
-    <!-- CAPTION -->
-    <g transform="translate(480,318)" text-anchor="middle">
-      <text class="caption">Just teach. We will create content by ourselves.</text>
-      <text class="subcap" dy="18">(No more hours of manual exercise prep.)</text>
-    </g>
-  </svg>
-</section>
-
-<!-- 3) Додай ці стилі (можна у твій <style>) -->
-<style>
-  .story{ padding: 0 24px 24px 24px; }
-  .story-sep{ border: none; border-top:1px solid rgba(255,255,255,0.08); margin: 0 0 8px 0; }
-</style>
-
-<!-- 4) І оцей скрипт (наприклад, перед </body>): запускає анімацію лише коли видно -->
-<script>
-  (function(){
-    const svg = document.getElementById('just-teach-anim');
-    if (!('IntersectionObserver' in window) || !svg){ svg?.classList.add('playing'); return; }
-    const io = new IntersectionObserver(([e])=>{
-      svg.classList.toggle('playing', e.isIntersecting);
-    }, { threshold: 0.2 });
-    io.observe(svg);
-  })();
-</script>
+      [fType, fLevel, search].forEach(el => el.addEventListener('input', apply));
+      render(data);
+    })();
+  </script>
+</body>
+</html>
