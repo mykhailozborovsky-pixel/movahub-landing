@@ -146,79 +146,74 @@
     .feature h3{ margin:0 0 6px 0; color:#f1f5f9; font-size: 15.5px; }
     .feature p{ margin:0; color:#cbd5e1; font-size: 14px; }
 
-    /* ===== Right mock — fully adaptive via container queries ===== */
+    /* ===== Right mock — 1-card carousel ===== */
     .mock{
       border: 1px solid var(--soft-line);
       background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
       border-radius: 16px;
-      min-height: 360px;
+      min-height: 380px;
       position: relative; overflow:hidden;
       box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
-      container-type: inline-size; /* key for container queries */
+      container-type: inline-size;
     }
     .mock .bar{ position:absolute; top:0; left:0; right:0; height: 44px; background: rgba(15,23,42,0.5); border-bottom:1px solid var(--soft-line) }
     .mock .pill{ position:absolute; top: 10px; left: 12px; display:flex; gap:6px }
     .mock .dot{ width:10px; height:10px; border-radius:999px; background:#475569 }
 
-    /* Auto-fit columns for ANY width; JS читає обчислені треки */
-    .mock .grid{
+    .carousel{
       position:absolute; inset:56px 16px 56px 16px;
+    }
+    .slide{
+      position:absolute; inset:0;
       display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: clamp(10px, 2.2vw, 16px);
-      align-content:start;
-    }
-
-    /* Container queries: fine-tune tile heights/inner layout by container width */
-    @container (max-width: 520px){
-      .tile{ min-height: 140px; }
-    }
-    @container (min-width: 521px) and (max-width: 760px){
-      .tile{ min-height: 150px; }
-    }
-    @container (min-width: 761px) and (max-width: 1020px){
-      .tile{ min-height: 160px; }
-    }
-    @container (min-width: 1021px){
-      .tile{ min-height: 176px; }
-    }
-
-    .tile{
-      position:relative;
-      border-radius:14px; overflow:hidden;
-      background: #0f172a;
-      border: 1px solid var(--stroke-2);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
-      display:grid;
-      grid-template-columns: auto 1fr auto;
-      grid-template-rows: auto 1fr;
-      grid-template-areas:
-        "icon title thumb"
-        "desc desc  thumb";
-      column-gap: 12px;
-      row-gap: 8px;
-      padding: 14px;
-      transition: transform .2s ease, border-color .2s ease;
-    }
-    .tile:hover{ transform: translateY(-2px); border-color: rgba(148,163,184,0.28); }
-    .tile[hidden]{ display:none !important; }
-
-    .tile .band{ content:""; position:absolute; left:0; right:0; top:0; height:6px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
-    .tile .icon{ grid-area: icon; width: clamp(22px, 2.2vw, 28px); height: clamp(22px, 2.2vw, 28px); opacity:.9; }
-    .tile h4{ grid-area: title; margin:0; color:#f8fafc; letter-spacing:.2px; line-height:1.25; font-size: clamp(13px, 1.2vw, 15px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .tile p{ grid-area: desc; margin:0; color:#cbd5e1; line-height:1.45; font-size: clamp(12.5px, 1.05vw, 14px); }
-    .tile .thumb{
-      grid-area: thumb; align-self:center;
-      width: clamp(90px, 14vw, 120px); height: clamp(54px, 10vw, 78px);
-      border-radius: 10px; background:#0b1220;
+      grid-template-columns: auto 1fr;
+      grid-template-areas: "art text";
+      gap:16px;
+      padding:14px;
+      border-radius:14px;
+      background:#0f172a;
       border:1px solid var(--stroke-2);
-      display:flex; align-items:center; justify-content:center;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+      opacity:0; pointer-events:none;
+      transform: translateX(12px);
+      transition: opacity .45s ease, transform .45s ease, filter .45s ease;
     }
-    .thumb .play{ width:0; height:0; border-left:14px solid #e2e8f0; border-top:10px solid transparent; border-bottom:10px solid transparent; opacity:.9; }
-    .art-lines rect{ fill:#334155 }
+    .slide.active{
+      opacity:1; pointer-events:auto; transform: translateX(0);
+    }
 
-    /* Pager */
+    /* Left artwork cell */
+    .art{
+      grid-area: art;
+      width: clamp(110px, 22vw, 160px);
+      display:flex; align-items:center; justify-content:center;
+      border-radius: 10px;
+      background: #0b1220;
+      border:1px solid var(--stroke-2);
+      overflow:hidden;
+    }
+    .text{
+      grid-area: text;
+      align-self:center;
+      padding-right: 4px;
+    }
+    .text h4{
+      margin:0 0 6px 0;
+      color:#f8fafc;
+      letter-spacing:.2px;
+      line-height:1.2;
+      font-size: clamp(18px, 2vw, 22px); /* збільшили */
+    }
+    .text p{
+      margin:0;
+      color:#cbd5e1;
+      line-height:1.55;
+      font-size: clamp(14.5px, 1.6vw, 16.5px); /* збільшили */
+    }
+    .band{ content:""; position:absolute; left:0; right:0; top:0; height:6px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+
+    /* Controls */
     .pager{
       position:absolute; left:12px; right:12px; bottom:10px;
       display:flex; align-items:center; justify-content:space-between; gap:10px;
@@ -239,6 +234,78 @@
     .pager .dots{ display:flex; gap:6px; }
     .pager .dot{ width:8px; height:8px; border-radius:999px; background: rgba(148,163,184,0.35); }
     .pager .dot.active{ background: var(--accent); transform: scale(1.2); }
+
+    /* ===== Mini animated illustrations (SVG/CSS) ===== */
+
+    /* Article shimmer lines */
+    @keyframes shimmer {
+      0% { transform: translateX(-60%); }
+      100%{ transform: translateX(160%); }
+    }
+    .ill-article .line{ fill:#334155; }
+    .ill-article .shine{
+      fill: rgba(255,255,255,0.08);
+      transform-origin: left;
+      animation: shimmer 1.8s linear infinite;
+    }
+
+    /* Video pulsing play */
+    @keyframes pulse {
+      0%{ transform: scale(0.85); opacity:.6; }
+      60%{ transform: scale(1); opacity:1; }
+      100%{ transform: scale(1.05); opacity:.0; }
+    }
+    .ill-video .screen{ fill:#1f2937; }
+    .ill-video .play{ fill:#e2e8f0; }
+    .ill-video .ring{
+      stroke: var(--accent);
+      stroke-width:2;
+      fill: none;
+      transform-origin: 50% 50%;
+      animation: pulse 2.2s ease-out infinite;
+    }
+
+    /* Podcast equalizer */
+    @keyframes eq {
+      0%,100%{ height: 16px; }
+      50%{ height: 36px; }
+    }
+    .ill-podcast rect{ fill:#38bdf8; }
+    .ill-podcast rect:nth-child(1){ animation: eq 1.2s ease-in-out infinite; }
+    .ill-podcast rect:nth-child(2){ animation: eq 1s ease-in-out infinite .1s; }
+    .ill-podcast rect:nth-child(3){ animation: eq 1.3s ease-in-out infinite .2s; }
+    .ill-podcast rect:nth-child(4){ animation: eq 0.9s ease-in-out infinite .3s; }
+    .ill-podcast rect:nth-child(5){ animation: eq 1.4s ease-in-out infinite .4s; }
+
+    /* Calendar tick */
+    @keyframes pop {
+      0%{ transform: scale(.6); opacity:0; }
+      60%{ transform: scale(1.08); opacity:1; }
+      100%{ transform: scale(1); opacity:1; }
+    }
+    .ill-calendar .date{ fill: var(--accent); transform-origin:center; animation: pop .6s ease-out .4s both; }
+
+    /* Progress growth */
+    @keyframes grow {
+      0%{ height:10%; }
+      100%{ height:80%; }
+    }
+    .ill-progress .bar{ fill:#22d3ee; transform-origin: bottom; animation: grow 1.4s ease-out both; }
+    .ill-progress .bar:nth-child(2){ animation-delay:.2s; }
+    .ill-progress .bar:nth-child(3){ animation-delay:.4s; }
+
+    /* Payments shine */
+    .ill-pay .card{ fill:#1f2937; stroke:#334155; }
+    .ill-pay .stripe{ fill: url(#gradStripe); }
+    @keyframes sweep {
+      0%{ transform: translateX(-120%); opacity:0; }
+      30%{ opacity:.8; }
+      100%{ transform: translateX(160%); opacity:0; }
+    }
+    .ill-pay .sweep{
+      fill: rgba(255,255,255,0.15);
+      animation: sweep 2.2s ease-in-out infinite;
+    }
 
     /* ===== Updates ===== */
     .updates{ padding: 6px 24px 26px 24px; }
@@ -276,8 +343,8 @@
 
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
-      .tile, .btn, .pager button { transition: none !important; }
-      .tile:hover{ transform:none; }
+      .tile, .btn, .pager button, .slide { transition: none !important; }
+      .slide{ transform:none !important; }
     }
   </style>
 </head>
@@ -316,6 +383,7 @@
       <!-- ===== Animated SVG immediately after header ===== -->
       <section class="just-teach">
         <hr class="just-teach__sep" aria-hidden="true" />
+        <!-- (той самий animated SVG з попередньої версії) -->
         <svg id="just-teach-anim" viewBox="0 0 960 360" role="img" aria-labelledby="jt-title jt-desc"
              style="width:100%;height:auto;display:block;margin:18px auto 6px;">
           <title id="jt-title">Just teach — we create the content</title>
@@ -343,7 +411,7 @@
             .stroked{ stroke: var(--ink,#e5e7eb); stroke-width:2; fill:none; stroke-linecap:round; stroke-linejoin:round; }
             @keyframes flyDoc{ 0%{transform:translateX(-180px) translateY(0) rotate(-6deg);opacity:0;}10%{opacity:1;}70%{transform:translateX(360px) translateY(-8px) rotate(-1deg);opacity:1;}100%{transform:translateX(420px) translateY(-12px) rotate(3deg);opacity:0;} }
             @keyframes spin{ to{ transform:rotate(360deg);} }
-            @keyframes pulse{ 0%{r:58;opacity:.35;}60%{r:94;opacity:.08;}100%{r:110;opacity:0;} }
+            @keyframes pulseHub{ 0%{r:58;opacity:.35;}60%{r:94;opacity:.08;}100%{r:110;opacity:0;} }
             @keyframes pop{ 0%{ transform:scale(.6) translateY(6px);opacity:0;}60%{transform:scale(1.05);opacity:1;}100%{transform:scale(1);opacity:1;} }
             @keyframes float{ 0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);} }
             @keyframes blink{ 0%,92%,100%{opacity:1;}94%,98%{opacity:0;} }
@@ -353,7 +421,7 @@
             svg.playing .doc.d2{ animation:flyDoc 4.8s linear infinite .7s; }
             svg.playing .doc.d3{ animation:flyDoc 4.8s linear infinite 1.4s; }
             svg.playing .ring{ animation:spin 12s linear infinite; opacity:.6; transform-origin:480px 160px; }
-            svg.playing .pulse{ animation:pulse 2.8s ease-out infinite; fill:url(#gAccent); filter:url(#fGlow); }
+            svg.playing .pulse{ animation:pulseHub 2.8s ease-out infinite; fill:url(#gAccent); filter:url(#fGlow); }
             svg.playing .spark{ animation:float 3.2s ease-in-out infinite; opacity:.9; transform-origin:center; }
             svg.playing .teacher{ animation:float 4s ease-in-out infinite; transform-origin:center; }
             svg.playing .teacher.t2{ animation-delay:.3s; }
@@ -477,93 +545,136 @@
           </div>
         </div>
 
-        <!-- Right mock with adaptive pagination (any width) -->
+        <!-- Right mock — ONE-CARD CAROUSEL -->
         <div class="mock" aria-hidden="true">
           <div class="bar"></div>
           <div class="pill"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
 
-          <div class="grid">
-            <!-- Article -->
-            <div class="tile">
+          <div class="carousel" id="benefits">
+            <!-- Slide 1: Article → Exercises -->
+            <article class="slide active" data-name="Article → Exercises" aria-hidden="false">
               <div class="band"></div>
-              <svg class="icon art-lines" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="4" y="6" width="10" height="10" rx="2"></rect>
-                <rect x="16" y="6" width="12" height="3" rx="1.5"></rect>
-                <rect x="16" y="11" width="8" height="3" rx="1.5"></rect>
-                <rect x="4" y="20" width="24" height="3" rx="1.5"></rect>
-                <rect x="4" y="25" width="18" height="3" rx="1.5"></rect>
-              </svg>
-              <h4>Article → Exercises</h4>
-              <p>Create gap-fills and Q&A from any URL or pasted text.</p>
-            </div>
-            <!-- Video -->
-            <div class="tile">
+              <div class="art">
+                <svg class="ill-article" viewBox="0 0 160 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Article to exercises">
+                  <rect x="10" y="12" width="48" height="48" rx="8" fill="#132033"/>
+                  <rect class="line" x="68" y="16" width="72" height="8" rx="4"/>
+                  <rect class="line" x="68" y="32" width="60" height="8" rx="4" opacity=".9"/>
+                  <rect class="line" x="12" y="70" width="136" height="8" rx="4" opacity=".7"/>
+                  <rect class="line" x="12" y="86" width="96" height="8" rx="4" opacity=".6"/>
+                  <rect class="shine" x="-80" y="0" width="80" height="100" />
+                </svg>
+              </div>
+              <div class="text">
+                <h4>Article → Exercises</h4>
+                <p>Create gap-fills and Q&amp;A from any URL or pasted text.</p>
+              </div>
+            </article>
+
+            <!-- Slide 2: Video → Dialogues -->
+            <article class="slide" data-name="Video → Dialogues" aria-hidden="true">
               <div class="band"></div>
-              <svg class="icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="3" y="6" width="26" height="18" rx="3" fill="#334155"></rect>
-                <polygon points="14,12 22,15 14,18" fill="#e2e8f0"></polygon>
-              </svg>
-              <h4>Video → Dialogues</h4>
-              <p>Generate role-cards and speaking prompts from clips.</p>
-              <div class="thumb"><div class="play"></div></div>
-            </div>
-            <!-- Podcast -->
-            <div class="tile">
-              <div "band"></div>
-              <svg class="icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="4" y="10" width="3" height="12" rx="1.5" fill="#334155"></rect>
-                <rect x="9" y="8" width="3" height="14" rx="1.5" fill="#334155"></rect>
-                <rect x="14" y="12" width="3" height="10" rx="1.5" fill="#334155"></rect>
-                <rect x="19" y="6" width="3" height="16" rx="1.5" fill="#334155"></rect>
-                <rect x="24" y="11" width="3" height="11" rx="1.5" fill="#334155"></rect>
-              </svg>
-              <h4>Podcast → Comprehension</h4>
-              <p>Build listening checks and vocab from episodes.</p>
-            </div>
-            <!-- Scheduling -->
-            <div class="tile">
+              <div class="art">
+                <svg class="ill-video" viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Video to dialogues">
+                  <defs>
+                    <linearGradient id="gradScreen" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#0f172a"/><stop offset="1" stop-color="#0b1220"/>
+                    </linearGradient>
+                  </defs>
+                  <rect class="screen" x="12" y="16" width="136" height="68" rx="10" fill="url(#gradScreen)"/>
+                  <polygon class="play" points="72,40 96,50 72,60"/>
+                  <circle class="ring" cx="84" cy="50" r="28"/>
+                </svg>
+              </div>
+              <div class="text">
+                <h4>Video → Dialogues</h4>
+                <p>Generate role-cards and speaking prompts from clips.</p>
+              </div>
+            </article>
+
+            <!-- Slide 3: Podcast → Comprehension -->
+            <article class="slide" data-name="Podcast → Comprehension" aria-hidden="true">
               <div class="band"></div>
-              <svg class="icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="4" y="6" width="24" height="20" rx="3" fill="#334155"></rect>
-                <rect x="10" y="4" width="4" height="6" rx="2" fill="#334155"></rect>
-                <rect x="18" y="4" width="4" height="6" rx="2" fill="#334155"></rect>
-                <rect x="8" y="14" width="6" height="6" rx="2" fill="#0b1220"></rect>
-              </svg>
-              <h4>Scheduling</h4>
-              <p>Organize classes, reminders, and homework.</p>
-            </div>
-            <!-- Progress -->
-            <div class="tile">
+              <div class="art">
+                <svg class="ill-podcast" viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Podcast to comprehension">
+                  <g transform="translate(30,28)">
+                    <rect x="0" y="20" width="8" height="16" rx="3"/>
+                    <rect x="16" y="10" width="8" height="36" rx="3"/>
+                    <rect x="32" y="16" width="8" height="24" rx="3"/>
+                    <rect x="48" y="6" width="8" height="44" rx="3"/>
+                    <rect x="64" y="14" width="8" height="28" rx="3"/>
+                  </g>
+                </svg>
+              </div>
+              <div class="text">
+                <h4>Podcast → Comprehension</h4>
+                <p>Build listening checks and vocab from episodes.</p>
+              </div>
+            </article>
+
+            <!-- Slide 4: Scheduling -->
+            <article class="slide" data-name="Scheduling" aria-hidden="true">
               <div class="band"></div>
-              <svg class="icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="6" y="18" width="4" height="8" rx="2" fill="#334155"></rect>
-                <rect x="14" y="14" width="4" height="12" rx="2" fill="#334155"></rect>
-                <rect x="22" y="10" width="4" height="16" rx="2" fill="#334155"></rect>
-                <polyline points="6,10 12,12 18,9 24,12" fill="none" stroke="#94a3b8" stroke-width="2"></polyline>
-              </svg>
-              <h4>Progress</h4>
-              <p>See mastery growth and spot weak areas.</p>
-            </div>
-            <!-- Payments -->
-            <div class="tile">
+              <div class="art">
+                <svg class="ill-calendar" viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scheduling">
+                  <rect x="22" y="16" width="116" height="68" rx="10" fill="#0f2236" stroke="#334155"/>
+                  <rect x="40" y="10" width="16" height="16" rx="6" fill="#0f2236" stroke="#334155"/>
+                  <rect x="104" y="10" width="16" height="16" rx="6" fill="#0f2236" stroke="#334155"/>
+                  <rect class="date" x="46" y="44" width="24" height="22" rx="6"/>
+                </svg>
+              </div>
+              <div class="text">
+                <h4>Scheduling</h4>
+                <p>Organize classes, reminders, and homework.</p>
+              </div>
+            </article>
+
+            <!-- Slide 5: Progress -->
+            <article class="slide" data-name="Progress" aria-hidden="true">
               <div class="band"></div>
-              <svg class="icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="4" y="8" width="24" height="16" rx="3" fill="#334155"></rect>
-                <rect x="6" y="12" width="20" height="2" rx="1" fill="#0b1220"></rect>
-                <rect x="6" y="18" width="8" height="3" rx="1.5" fill="#0b1220"></rect>
-              </svg>
-              <h4>Payments</h4>
-              <p>Accept payments when you’re ready.</p>
-            </div>
+              <div class="art">
+                <svg class="ill-progress" viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Progress and insights">
+                  <g transform="translate(36,18)">
+                    <rect class="bar" x="0" y="60" width="16" height="10" rx="4"/>
+                    <rect class="bar" x="28" y="40" width="16" height="30" rx="4"/>
+                    <rect class="bar" x="56" y="20" width="16" height="50" rx="4"/>
+                  </g>
+                </svg>
+              </div>
+              <div class="text">
+                <h4>Progress</h4>
+                <p>See mastery growth and spot weak areas.</p>
+              </div>
+            </article>
+
+            <!-- Slide 6: Payments -->
+            <article class="slide" data-name="Payments" aria-hidden="true">
+              <div class="band"></div>
+              <div class="art">
+                <svg class="ill-pay" viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Payments">
+                  <defs>
+                    <linearGradient id="gradStripe" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#14B8A6"/><stop offset="1" stop-color="#0D9488"/>
+                    </linearGradient>
+                  </defs>
+                  <rect class="card" x="20" y="22" width="120" height="56" rx="10" />
+                  <rect class="stripe" x="28" y="38" width="80" height="10" rx="5" />
+                  <rect class="sweep" x="-80" y="22" width="60" height="56" rx="10" />
+                </svg>
+              </div>
+              <div class="text">
+                <h4>Payments</h4>
+                <p>Accept payments when you’re ready.</p>
+              </div>
+            </article>
           </div>
 
-          <!-- Pagination controls -->
-          <div class="pager" aria-label="Grid pagination" hidden>
+          <!-- Carousel controls -->
+          <div class="pager" aria-label="Carousel controls">
             <div class="buttons">
-              <button type="button" class="prev" aria-label="Previous page">‹</button>
-              <button type="button" class="next" aria-label="Next page">›</button>
+              <button type="button" class="prev" aria-label="Previous">‹</button>
+              <button type="button" class="next" aria-label="Next">›</button>
             </div>
-            <div class="dots" role="tablist" aria-label="Pages"></div>
+            <div class="dots" role="tablist" aria-label="Slides"></div>
           </div>
         </div>
       </section>
@@ -607,88 +718,6 @@
         svg.classList.toggle('playing', e.isIntersecting);
       }, { threshold: 0.2 });
       io.observe(svg);
-    })();
-
-    // Helper: count CSS grid tracks of computed grid (works with auto-fit/minmax)
-    function countTracks(el){
-      const cs = getComputedStyle(el);
-      const colsDef = cs.gridTemplateColumns.trim();
-      if (!colsDef) return 1;
-      return colsDef.split(' ').filter(Boolean).length;
-    }
-
-    // Adaptive pagination for the right grid (any container width/height)
-    (function(){
-      const grid = document.querySelector('.mock .grid');
-      const tiles = Array.from(grid.querySelectorAll('.tile'));
-      const pager = document.querySelector('.mock .pager');
-      const btnPrev = pager.querySelector('.prev');
-      const btnNext = pager.querySelector('.next');
-      const dotsWrap = pager.querySelector('.dots');
-
-      let page = 0, ipp = tiles.length, total = 1;
-
-      function computeIpp(){
-        // Reveal all to measure
-        tiles.forEach(t => t.hidden = false);
-        const cs = getComputedStyle(grid);
-        const gap = parseFloat(cs.gap) || 0;
-        const gridH = grid.clientHeight;
-        const cols = Math.max(1, countTracks(grid));
-        // Measure average tile height
-        const sample = tiles[0];
-        const th = sample ? sample.getBoundingClientRect().height : 150;
-        const rows = Math.max(1, Math.floor((gridH + gap) / (th + gap)));
-        return Math.max(1, cols * rows);
-      }
-
-      function renderDots(){
-        dotsWrap.innerHTML = '';
-        for(let i=0;i<total;i++){
-          const d = document.createElement('div');
-          d.className = 'dot' + (i===page?' active':'');
-          d.setAttribute('role','tab');
-          d.setAttribute('aria-selected', i===page ? 'true' : 'false');
-          d.addEventListener('click', ()=> { setPage(i); });
-          dotsWrap.appendChild(d);
-        }
-      }
-
-      function setPage(p){
-        ipp = computeIpp();
-        total = Math.max(1, Math.ceil(tiles.length / ipp));
-        page = Math.min(Math.max(0, p), total - 1);
-        const start = page * ipp;
-        const end = start + ipp;
-        tiles.forEach((t, i) => { t.hidden = !(i >= start && i < end); });
-        pager.hidden = total <= 1;
-        btnPrev.disabled = page === 0;
-        btnNext.disabled = page === total - 1;
-        renderDots();
-      }
-
-      btnPrev.addEventListener('click', ()=> setPage(page - 1));
-      btnNext.addEventListener('click', ()=> setPage(page + 1));
-
-      // Keyboard navigation on the mock container
-      const mock = document.querySelector('.mock');
-      mock.tabIndex = 0;
-      mock.addEventListener('keydown', (e)=>{
-        if(e.key === 'ArrowLeft') { e.preventDefault(); setPage(page - 1); }
-        if(e.key === 'ArrowRight'){ e.preventDefault(); setPage(page + 1); }
-      });
-
-      // Recalculate on resize & when fonts load
-      let rId;
-      window.addEventListener('resize', ()=>{
-        cancelAnimationFrame(rId);
-        rId = requestAnimationFrame(()=> setPage(page));
-      });
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(()=> setPage(page));
-      }
-
-      setPage(0);
     })();
 
     // Waitlist submit → /api/subscribe (Pages Function)
@@ -768,6 +797,85 @@
 
       [fType, fLevel, search].forEach(el => el.addEventListener('input', apply));
       render(data);
+    })();
+
+    // ===== One-card Carousel logic =====
+    (function(){
+      const root = document.getElementById('benefits');
+      if (!root) return;
+      const slides = Array.from(root.querySelectorAll('.slide'));
+      const pager = root.parentElement.querySelector('.pager');
+      const btnPrev = pager.querySelector('.prev');
+      const btnNext = pager.querySelector('.next');
+      const dotsWrap = pager.querySelector('.dots');
+
+      let i = 0;
+      let timer = null;
+      const interval = 4000; // 4s
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function renderDots(){
+        dotsWrap.innerHTML = '';
+        slides.forEach((s, idx) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'dot' + (idx===i?' active':'');
+          b.setAttribute('role','tab');
+          b.setAttribute('aria-label', s.dataset.name || `Slide ${idx+1}`);
+          b.setAttribute('aria-selected', idx===i ? 'true' : 'false');
+          b.addEventListener('click', ()=> go(idx));
+          dotsWrap.appendChild(b);
+        });
+      }
+
+      function go(next){
+        if (next === i) return;
+        slides[i].classList.remove('active');
+        slides[i].setAttribute('aria-hidden', 'true');
+        i = (next + slides.length) % slides.length;
+        slides[i].classList.add('active');
+        slides[i].setAttribute('aria-hidden', 'false');
+        renderDots();
+      }
+
+      function next(){ go(i+1); }
+      function prev(){ go(i-1); }
+
+      function start(){
+        if (prefersReduced) return; // no autoplay for reduced motion
+        stop();
+        timer = setInterval(next, interval);
+      }
+      function stop(){
+        if (timer) { clearInterval(timer); timer = null; }
+      }
+
+      // Buttons
+      btnNext.addEventListener('click', ()=> { next(); start(); });
+      btnPrev.addEventListener('click', ()=> { prev(); start(); });
+
+      // Pause on hover/focus
+      const mock = root.closest('.mock');
+      mock.addEventListener('pointerenter', stop);
+      mock.addEventListener('pointerleave', start);
+      mock.addEventListener('focusin', stop);
+      mock.addEventListener('focusout', start);
+
+      // Pause when not visible
+      if ('IntersectionObserver' in window){
+        const io = new IntersectionObserver(([e])=>{
+          if (e.isIntersecting) start(); else stop();
+        }, { threshold: 0.2 });
+        io.observe(mock);
+      } else {
+        start();
+      }
+
+      // Init
+      renderDots();
+      slides[0].classList.add('active');
+      slides[0].setAttribute('aria-hidden', 'false');
+      start();
     })();
   </script>
 </body>
