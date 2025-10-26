@@ -518,8 +518,8 @@
             Import any article, video, or podcast and turn it into lessons — exercises, schedules,
             homework and progress tracking in one place. Payments included.
           </p>
-          <div class="cta">
-            <a class="btn" href="https://forms.gle/qDDSNWCfU2fqzFWU9&body= <msg>">Join the waitlist</a>
+         <div class="cta">
+            <a class="btn" href="#waitlist-msg">Join the waitlist</a>
             <a class="btn subtle" href="#updates">Learn more</a>
           </div>
           <!-- Waitlist -->
@@ -729,10 +729,10 @@
         msg.textContent = 'Submitting…';
         const data = Object.fromEntries(new FormData(form).entries());
         try {
-          const res = await fetch('/api/subscribe', {
+          const res = await fetch('https://forms.gle/XYZJdZ6ECMvSA6ue8', {
             method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({ email: data.email })
+            headers:{'Content-Type':'application/txt'},
+            body: data.email
           });
           if (!res.ok) throw new Error('Bad response');
           msg.textContent = 'You’re on the list!';
